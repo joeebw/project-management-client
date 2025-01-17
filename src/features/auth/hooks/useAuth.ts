@@ -57,7 +57,7 @@ const useAuth = () => {
 
       setUser(response.user);
       setTokens(response.accessToken, response.refreshToken);
-      // navigate("/home", { replace: true });
+      navigate("/home", { replace: true });
     } catch (err) {
       form.setError("root", {
         type: "manual",
@@ -84,9 +84,11 @@ const useAuth = () => {
         role: data.role,
       };
       const response = await authService.register(registerParams);
-      console.log("response: ", response);
+
       setIsSignIn();
-      // navigate("/home", { replace: true });
+      setUser(response.user);
+      setTokens(response.accessToken, response.refreshToken);
+      navigate("/home", { replace: true });
     } catch (err) {
       form.setError("root", {
         type: "manual",

@@ -1,15 +1,19 @@
 import { useStore } from "@/state/useStore";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
-import SignInInputs from "@/features/auth/components/SignInInputs";
-import SignUpInputs from "@/features/auth/components/SignUpInputs";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import useAuth from "@/features/auth/hooks/useAuth";
+import SignInForm from "@/features/auth/components/SignInForm";
+import SignUpForm from "@/features/auth/components/SignUpForm";
 
 const LoginPage = () => {
   const isSignIn = useStore((state) => state.isSignIn);
   const setIsSignIn = useStore((state) => state.setIsSignIn);
-
   const {
     handleSignInGuest,
     handleSignUp,
@@ -22,75 +26,51 @@ const LoginPage = () => {
   } = useAuth();
 
   return (
-    <form
-      onSubmit={
-        isSignIn
-          ? signInForm.handleSubmit(handleSignIn)
-          : signUpForm.handleSubmit(handleSignUp)
-      }
-      className="flex items-center justify-center min-h-screen bg-gray-100"
-    >
-      <div className="p-16 bg-card w-[33rem] backdrop-blur-xl rounded-2xl shadow-xl">
-        <h2 className="text-2xl font-medium text-center">
-          Welcome to TaskWolf! Log in to lead your projects to success.
-        </h2>
-        <div className="flex flex-col gap-7 mt-7">
-          {form.formState.errors.root && (
-            <Alert variant="destructive">
-              <AlertDescription>
-                {form.formState.errors.root.message}
-              </AlertDescription>
-            </Alert>
-          )}
-
-          {isSignIn ? (
-            <SignInInputs signInForm={signInForm} />
-          ) : (
-            <SignUpInputs signUpForm={signUpForm} />
-          )}
-        </div>
-
-        <div className="flex gap-4">
-          <Button
-            type="submit"
-            variant="default"
-            className="w-full mt-7"
-            disabled={form.formState.isSubmitting}
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <Card className="w-full max-w-lg p-4">
+        <CardHeader>
+          <CardTitle className="text-xl">Project Management</CardTitle>
+          <CardDescription className="text-base">
+            Sign in or create an account to get started.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Tabs
+            defaultValue={isSignIn ? "signin" : "signup"}
+            className="w-full"
+            onValueChange={() => {
+              setIsSignIn();
+              form.reset();
+            }}
           >
-            {!isLoadingGuest && isLoading && (
-              <Loader2 className="animate-spin" />
-            )}
-            {isSignIn ? "Sign In" : "Sign Up"}
-          </Button>
-          <Button
-            type="button"
-            variant="default"
-            className="w-full mt-7"
-            onClick={handleSignInGuest}
-            disabled={form.formState.isSubmitting}
-          >
-            {isLoadingGuest && <Loader2 className="animate-spin" />}
-            Continue as Guest
-          </Button>
-        </div>
+            <TabsList className="grid w-full grid-cols-2 mb-6">
+              <TabsTrigger value="signin">Sign In</TabsTrigger>
+              <TabsTrigger value="signup">Sign Up</TabsTrigger>
+            </TabsList>
 
-        <p
-          className="mt-5 text-sm underline cursor-pointer"
-          onClick={() => {
-            if (isSignIn) {
-              signInForm.reset();
-            } else {
-              signUpForm.reset();
-            }
-            setIsSignIn();
-          }}
-        >
-          {isSignIn
-            ? "Don't have an account? Sign up here"
-            : "Already have an account? Sign in here"}
-        </p>
-      </div>
-    </form>
+            <TabsContent value="signin">
+              <SignInForm
+                form={form}
+                signInForm={signInForm}
+                handleSignIn={handleSignIn}
+                handleSignInGuest={handleSignInGuest}
+                isLoading={isLoading}
+                isLoadingGuest={isLoadingGuest}
+              />
+            </TabsContent>
+
+            <TabsContent value="signup">
+              <SignUpForm
+                form={form}
+                signUpForm={signUpForm}
+                handleSignUp={handleSignUp}
+                isLoading={isLoading}
+              />
+            </TabsContent>
+          </Tabs>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 

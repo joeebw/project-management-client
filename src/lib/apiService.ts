@@ -31,7 +31,7 @@ api.interceptors.response.use(
         return api(error.config);
       } catch (err) {
         removeTokens();
-        // window.location.href = "/";
+        window.location.href = "/";
       }
     }
     return Promise.reject(error);

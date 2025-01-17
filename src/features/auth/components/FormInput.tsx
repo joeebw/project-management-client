@@ -21,7 +21,7 @@ const FormInput = ({
       <Input
         type={type}
         placeholder={placeholder}
-        className={`!text-base ${className}`}
+        className={`!text-sm ${className}`}
         {...register}
       />
       {error && <p className="text-sm text-red-500">{error.message}</p>}
