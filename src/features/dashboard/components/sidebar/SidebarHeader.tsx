@@ -5,7 +5,7 @@ import { Lock } from "lucide-react";
 const SidebarHeader = () => {
   return (
     <>
-      <SidebarContent className="pb-2">
+      <SidebarContent className="py-4">
         <span className="text-xl font-medium">WolfTask</span>
       </SidebarContent>
       <div className="py-2.5 border-y border-gray-400">
