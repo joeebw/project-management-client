@@ -25,7 +25,7 @@ const useFetch = <T>(url: string) => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [url]);
 
   const refetch = () => {
     fetchData();

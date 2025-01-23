@@ -4,14 +4,14 @@ import { Outlet } from "react-router";
 
 const HomePage = () => {
   return (
-    <div className="flex min-h-screen">
+    <div className="flex h-screen">
       {/* Sidebar */}
       <Sidebar />
 
       {/* Screen */}
       <div className="flex flex-col flex-1 bg-background">
         <NavBar />
-        <div className="flex-1 bg-background">
+        <div className="flex-1 overflow-y-auto bg-background">
           <Outlet />
         </div>
       </div>

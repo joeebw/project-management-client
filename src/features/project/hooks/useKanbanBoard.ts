@@ -4,10 +4,10 @@ import {
   DragItem,
   DropIndicatorState,
 } from "@/features/project/ts/kanban.type";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const useKanbanBoard = (initialBoards: Board) => {
-  const [boards, setBoards] = useState<Board>(initialBoards);
+const useKanbanBoard = (initialBoards: Board | undefined) => {
+  const [boards, setBoards] = useState<Board>();
   const [draggedItem, setDraggedItem] = useState<DragItem | null>(null);
   const [dropIndicator, setDropIndicator] = useState<DropIndicatorState>({
     board: null,
@@ -56,32 +56,45 @@ const useKanbanBoard = (initialBoards: Board) => {
     dropIndex: number
   ) => {
     e.preventDefault();
-
     const data = JSON.parse(
       e.dataTransfer.getData("application/json")
     ) as DragItem;
     const { card, sourceBoard } = data;
 
-    if (
-      sourceBoard === targetBoard &&
-      dropIndex === boards[targetBoard].findIndex((c) => c.id === card.id)
-    ) {
+    if (!boards) return;
+
+    const currentIndex = boards[sourceBoard]?.findIndex(
+      (c) => c.id === card.id
+    );
+    if (sourceBoard === targetBoard && dropIndex === currentIndex) {
       return;
     }
 
     setBoards((prev) => {
-      const newBoards = { ...prev };
-      newBoards[sourceBoard] = prev[sourceBoard].filter(
+      if (!prev) return prev;
+
+      const newBoards = structuredClone(prev);
+
+      if (!newBoards[sourceBoard]) newBoards[sourceBoard] = [];
+      if (!newBoards[targetBoard]) newBoards[targetBoard] = [];
+
+      newBoards[sourceBoard] = newBoards[sourceBoard].filter(
         (c) => c.id !== card.id
       );
+
       const targetCards = [...newBoards[targetBoard]];
       targetCards.splice(dropIndex, 0, card);
       newBoards[targetBoard] = targetCards;
+
       return newBoards;
     });
 
     setDropIndicator({ board: null, index: null });
   };
+
+  useEffect(() => {
+    setBoards(initialBoards);
+  }, [initialBoards]);
 
   return {
     boards,

@@ -1,4 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Skeleton } from "@/components/ui/skeleton";
 import SidebarContent from "@/features/dashboard/components/sidebar/SidebarContent";
 import { Lock } from "lucide-react";
 
@@ -16,7 +17,9 @@ const SidebarHeader = () => {
                 "https://avatar.iran.liara.run/username?username=Joee+Garcia"
               }
             />
-            <AvatarFallback>Doe</AvatarFallback>
+            <AvatarFallback>
+              <Skeleton className="bg-gray-400 rounded-full w-11 h-11" />
+            </AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
             <span className="font-medium">Joee Garcia</span>

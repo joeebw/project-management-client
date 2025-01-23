@@ -15,7 +15,7 @@ const NavBar = () => {
   };
 
   return (
-    <div className="flex justify-between items-center text-white bg-primary h-[3.9rem] px-10">
+    <div className="flex justify-between items-center text-white bg-primary min-h-[3.9rem] px-10">
       <ProjectSearchInput />
 
       <Button variant="secondary" onClick={handleSignOut}>

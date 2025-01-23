@@ -1,5 +1,8 @@
+import DropdownRemove from "@/features/project/components/kanban/DropdownRemove";
+import KabanCardComments from "@/features/project/components/kanban/KabanCardComments";
 import PeopleAssigned from "@/features/project/components/kanban/PeopleAssigned";
 import { Card } from "@/features/project/ts/kanban.type";
+import clsx from "clsx";
 import { MessageSquareMore } from "lucide-react";
 import { useState } from "react";
 
@@ -12,6 +15,17 @@ type Props = {
   onDragOver: (e: React.DragEvent, board: string, index: number) => void;
   onDrop: (e: React.DragEvent, targetBoard: string, dropIndex: number) => void;
 };
+
+const Tags = [
+  {
+    name: "urgent",
+    color: "bg-yellow-300",
+  },
+  {
+    name: "software",
+    color: "bg-orange-300",
+  },
+];
 
 const KanbanCard = ({
   card,
@@ -33,30 +47,46 @@ const KanbanCard = ({
       onDragOver={(e) => onDragOver(e, boardName, index)}
       onDrop={(e) => onDrop(e, boardName, index)}
     >
+      <div className="flex justify-between">
+        {/* Tags  */}
+        <div className="flex gap-2 mb-2.5">
+          {card.tags.map(({ tag, color }) => (
+            <span
+              className={clsx(
+                color,
+                "text-gray-800 font-medium text-xs p-1.5 rounded-2xl cursor-default"
+              )}
+              key={tag}
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+
+        <DropdownRemove className="w-5" />
+      </div>
+
       <h3 className="font-semibold">{card.title}</h3>
       <div className="mt-1.5">
-        <p className="text-sm font-medium text-gray-500">11-4-2024</p>
+        <p className="text-sm font-medium text-gray-500">
+          {card.startDate} - {card.endDate}
+        </p>
+
         <p className="text-sm font-medium text-gray-500">{card.description}</p>
       </div>
       {/* Divider */}
       <div className="my-2 border-b border-gray-300" />
 
       <div className="flex items-center justify-between">
-        <PeopleAssigned />
+        <PeopleAssigned assignees={card.assignees} />
         <MessageSquareMore
-          className="w-5 h-5 text-gray-700 cursor-pointer"
+          className="w-5 h-5 text-black cursor-pointer"
           onClick={() => setIsCommentsOpen(!isCommentsOpen)}
         />
       </div>
 
       {/* Comments */}
-      {isCommentsOpen && (
-        <div className="p-2 mt-3 text-sm bg-gray-100 rounded-md max-h-[7rem] overflow-y-auto">
-          <p>Hola Como estan Guys? Yo bien y ustedes?</p>
-          <div className="my-1 border-b border-gray-300" />
-          <p>Hola Como estan Guys? Yo bien y ustedes?</p>
-        </div>
-      )}
+      <KabanCardComments isCommentsOpen={isCommentsOpen} />
     </div>
   );
 };

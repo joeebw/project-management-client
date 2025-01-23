@@ -2,8 +2,8 @@ import axios from "axios";
 import {
   getAccessToken,
   getRefreshToken,
-  setTokens,
   removeTokens,
+  setAccessToken,
 } from "@/lib/auth";
 
 const api = axios.create({
@@ -21,8 +21,9 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
-    if (error.response?.status === 401) {
+    if (error.response?.status === 401 && !error.config._retry) {
       console.log("Running inside status 401");
+      error.config._retry = true;
       const refreshToken = getRefreshToken();
 
       try {
@@ -30,13 +31,14 @@ api.interceptors.response.use(
           `${import.meta.env.VITE_BASE_URL}/auth/refresh`,
           { refreshToken }
         );
-        setTokens(data.accessToken, data.refreshToken);
+        setAccessToken(data.accessToken);
         error.config.headers.Authorization = `Bearer ${data.accessToken}`;
         console.log("success getting new access token");
         return api(error.config);
       } catch (err) {
-        // removeTokens();
-        // window.location.href = "/";
+        removeTokens();
+        window.location.href = "/";
+        return Promise.reject(err);
       }
     }
     return Promise.reject(error);
