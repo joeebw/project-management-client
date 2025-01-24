@@ -30,3 +30,9 @@ export interface Board {
   under_review: Card[];
   [key: string]: Card[];
 }
+
+export interface Comment {
+  id: number;
+  text: string;
+  userName: string;
+}

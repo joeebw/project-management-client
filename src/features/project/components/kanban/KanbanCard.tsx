@@ -1,6 +1,7 @@
 import DropdownRemove from "@/features/project/components/kanban/DropdownRemove";
 import KabanCardComments from "@/features/project/components/kanban/KabanCardComments";
 import PeopleAssigned from "@/features/project/components/kanban/PeopleAssigned";
+import { tagColors } from "@/features/project/lib/project";
 import { Card } from "@/features/project/ts/kanban.type";
 import clsx from "clsx";
 import { MessageSquareMore } from "lucide-react";
@@ -53,7 +54,7 @@ const KanbanCard = ({
           {card.tags.map(({ tag, color }) => (
             <span
               className={clsx(
-                color,
+                tagColors[color],
                 "text-gray-800 font-medium text-xs p-1.5 rounded-2xl cursor-default"
               )}
               key={tag}
@@ -86,7 +87,7 @@ const KanbanCard = ({
       </div>
 
       {/* Comments */}
-      <KabanCardComments isCommentsOpen={isCommentsOpen} />
+      <KabanCardComments isCommentsOpen={isCommentsOpen} taskId={card.id} />
     </div>
   );
 };

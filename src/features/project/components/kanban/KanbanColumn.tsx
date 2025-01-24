@@ -34,50 +34,73 @@ export const KanbanColumn = ({
   onDragEnd,
   onDragOver,
   onDrop,
-}: Props) => (
-  <div className="p-4 bg-gray-100 rounded-lg min-h-96">
+}: Props) => {
+  // Función auxiliar para manejar el dragOver en la columna
+  const handleColumnDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    const column = e.currentTarget as HTMLElement;
+    const columnRect = column.getBoundingClientRect();
+    const y = e.clientY - columnRect.top;
+
+    // Encontrar el índice más cercano basado en la posición del cursor
+    const cardHeight = 100; // Altura aproximada de una tarjeta
+    let nearestIndex = Math.floor(y / cardHeight);
+
+    // Asegurarse de que el índice está dentro de los límites
+    nearestIndex = Math.max(0, Math.min(nearestIndex, cards?.length ?? 0));
+
+    onDragOver(e, boardName, nearestIndex);
+  };
+
+  return (
     <div
-      className={clsx(
-        "flex justify-between p-4 mb-4 bg-white rounded-2xl",
-        "border-l-8",
-        borderSection[title]
-      )}
+      className="p-4 bg-gray-100 rounded-lg min-h-96"
+      onDragOver={handleColumnDragOver}
+      onDrop={(e) =>
+        onDrop(e, boardName, dropIndicator.index ?? cards?.length ?? 0)
+      }
     >
-      <h2 className="text-lg font-bold">{title}</h2>
-      <SquarePlus className="text-gray-700" />
-    </div>
-
-    <div className="space-y-2">
-      {cards?.map((card, index) => (
-        <Fragment key={card.id}>
-          {dropIndicator.board === boardName &&
-            dropIndicator.index === index && <DropIndicator />}
-
-          <KanbanCard
-            card={card}
-            boardName={boardName}
-            index={index}
-            onDragStart={onDragStart}
-            onDragEnd={onDragEnd}
-            onDragOver={onDragOver}
-            onDrop={onDrop}
-          />
-        </Fragment>
-      ))}
-
       <div
-        className={`relative ${
-          !cards || cards.length === 0
-            ? "border-2 border-dashed border-gray-300 h-24"
-            : "h-16"
-        } rounded-lg`}
-        onDragOver={(e) => onDragOver(e, boardName, cards?.length ?? 0)}
-        onDrop={(e) => onDrop(e, boardName, cards?.length ?? 0)}
+        className={clsx(
+          "flex justify-between p-4 mb-4 bg-white rounded-2xl",
+          "border-l-8",
+          borderSection[title]
+        )}
       >
-        {(!cards || cards.length === 0) && <EmptyBoardPlaceholder />}
-        {dropIndicator.board === boardName &&
-          dropIndicator.index === (cards?.length ?? 0) && <DropIndicator />}
+        <h2 className="text-lg font-bold">{title}</h2>
+        <SquarePlus className="text-gray-700" />
+      </div>
+
+      <div className="space-y-2">
+        {cards?.map((card, index) => (
+          <Fragment key={card.id}>
+            {dropIndicator.board === boardName &&
+              dropIndicator.index === index && <DropIndicator />}
+            <KanbanCard
+              card={card}
+              boardName={boardName}
+              index={index}
+              onDragStart={onDragStart}
+              onDragEnd={onDragEnd}
+              onDragOver={onDragOver}
+              onDrop={onDrop}
+            />
+          </Fragment>
+        ))}
+
+        {/* Área vacía al final de la columna */}
+        <div
+          className={`relative ${
+            !cards || cards.length === 0
+              ? "border-2 border-dashed border-gray-300 h-24"
+              : "h-16"
+          } rounded-lg`}
+        >
+          {(!cards || cards.length === 0) && <EmptyBoardPlaceholder />}
+          {dropIndicator.board === boardName &&
+            dropIndicator.index === (cards?.length ?? 0) && <DropIndicator />}
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};

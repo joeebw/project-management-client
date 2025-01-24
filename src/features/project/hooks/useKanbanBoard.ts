@@ -4,11 +4,11 @@ import {
   DragItem,
   DropIndicatorState,
 } from "@/features/project/ts/kanban.type";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const useKanbanBoard = (initialBoards: Board | undefined) => {
   const [boards, setBoards] = useState<Board>();
-  const [draggedItem, setDraggedItem] = useState<DragItem | null>(null);
+  const draggedItemRef = useRef<DragItem | null>(null);
   const [dropIndicator, setDropIndicator] = useState<DropIndicatorState>({
     board: null,
     index: null,
@@ -19,69 +19,63 @@ const useKanbanBoard = (initialBoards: Board | undefined) => {
     card: Card,
     sourceBoard: string
   ) => {
-    setDraggedItem({ card, sourceBoard });
+    draggedItemRef.current = { card, sourceBoard };
+    e.dataTransfer.effectAllowed = "move";
     e.dataTransfer.setData(
       "application/json",
       JSON.stringify({ card, sourceBoard })
     );
-    const target = e.target as HTMLElement;
-    target.style.opacity = "0.5";
-  };
-
-  const handleDragEnd = (e: React.DragEvent) => {
-    const target = e.target as HTMLElement;
-    target.style.opacity = "1";
-    setDraggedItem(null);
-    setDropIndicator({ board: null, index: null });
   };
 
   const handleDragOver = (e: React.DragEvent, board: string, index: number) => {
     e.preventDefault();
+    const draggedItem = draggedItemRef.current;
     if (!draggedItem) return;
 
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
     const y = e.clientY - rect.top;
-    const height = rect.height;
 
-    if (y > height / 2) {
-      index += 1;
+    let adjustedIndex = index;
+    if (y > rect.height / 2) {
+      adjustedIndex += 1;
     }
 
-    setDropIndicator({ board, index });
+    const maxIndex = boards?.[board]?.length ?? 0;
+    const safeIndex = Math.max(0, Math.min(adjustedIndex, maxIndex));
+
+    if (dropIndicator.board !== board || dropIndicator.index !== safeIndex) {
+      setDropIndicator({ board, index: safeIndex });
+    }
   };
 
-  const handleDrop = (
+  const handleDragEnd = () => {
+    draggedItemRef.current = null;
+    setDropIndicator({ board: null, index: null });
+  };
+
+  const handleDrop = async (
     e: React.DragEvent,
     targetBoard: string,
     dropIndex: number
   ) => {
     e.preventDefault();
-    const data = JSON.parse(
-      e.dataTransfer.getData("application/json")
-    ) as DragItem;
-    const { card, sourceBoard } = data;
+    const draggedItem = draggedItemRef.current;
+    if (!draggedItem || !boards) return;
 
-    if (!boards) return;
+    const { card, sourceBoard } = draggedItem;
+    const sourceIndex = boards[sourceBoard]?.findIndex((c) => c.id === card.id);
 
-    const currentIndex = boards[sourceBoard]?.findIndex(
-      (c) => c.id === card.id
-    );
-    if (sourceBoard === targetBoard && dropIndex === currentIndex) {
-      return;
-    }
+    if (sourceBoard === targetBoard && dropIndex === sourceIndex) return;
 
     setBoards((prev) => {
       if (!prev) return prev;
-
       const newBoards = structuredClone(prev);
-
-      if (!newBoards[sourceBoard]) newBoards[sourceBoard] = [];
-      if (!newBoards[targetBoard]) newBoards[targetBoard] = [];
 
       newBoards[sourceBoard] = newBoards[sourceBoard].filter(
         (c) => c.id !== card.id
       );
 
+      if (!newBoards[targetBoard]) newBoards[targetBoard] = [];
       const targetCards = [...newBoards[targetBoard]];
       targetCards.splice(dropIndex, 0, card);
       newBoards[targetBoard] = targetCards;
@@ -89,6 +83,7 @@ const useKanbanBoard = (initialBoards: Board | undefined) => {
       return newBoards;
     });
 
+    draggedItemRef.current = null;
     setDropIndicator({ board: null, index: null });
   };
 
@@ -105,5 +100,4 @@ const useKanbanBoard = (initialBoards: Board | undefined) => {
     handleDrop,
   };
 };
-
 export default useKanbanBoard;
