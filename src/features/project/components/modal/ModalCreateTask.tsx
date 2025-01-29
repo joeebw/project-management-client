@@ -15,6 +15,7 @@ import useTask from "@/features/project/hooks/useTask";
 import { useStore } from "@/state/useStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -28,23 +29,75 @@ const createTaskSchema = z.object({
     .array(z.string())
     .min(1, "At least one user must be assigned")
     .max(10, "Cannot assign more than 10 users"),
-  startDate: z.date(),
-  endDate: z.date(),
 });
 
 export type CreateFormData = z.infer<typeof createTaskSchema>;
 
+export const modalTaskDefaultValues = {
+  title: "",
+  description: "",
+  status: "",
+  priority: "",
+  tags: "",
+  assignedUserIds: [],
+  startDate: new Date(),
+  endDate: new Date(),
+};
+
 const ModalCreateTask = () => {
+  const [startDate, setStartDate] = useState<Date>();
+  const [endDate, setEndDate] = useState<Date>();
+  const [dateErrors, setDateErrors] = useState({
+    startDate: "",
+    endDate: "",
+  });
+
   const createTaskForm = useForm<CreateFormData>({
     resolver: zodResolver(createTaskSchema),
+    defaultValues: modalTaskDefaultValues,
   });
 
   const isTaskModal = useStore((state) => state.isTaskModal);
   const setIsTaskModal = useStore((state) => state.setIsTaskModal);
+
+  const resetDatePicker = () => {
+    setStartDate(undefined);
+    setEndDate(undefined);
+    setDateErrors({ startDate: "", endDate: "" });
+  };
+
   const { handleCreateTask } = useTask();
 
+  const handleOpenChange = (bool: boolean) => {
+    setIsTaskModal(bool);
+    if (!bool) {
+      createTaskForm.reset(modalTaskDefaultValues);
+      resetDatePicker();
+    }
+  };
+
+  const onSubmit = async (data: CreateFormData) => {
+    const errors = {
+      startDate: !startDate ? "Start date is required" : "",
+      endDate: !endDate ? "End date is required" : "",
+    };
+    setDateErrors(errors);
+
+    if (!startDate || !endDate) return;
+
+    await handleCreateTask(
+      {
+        ...data,
+        startDate,
+        endDate,
+      },
+      createTaskForm,
+      resetDatePicker
+    );
+  };
+
   return (
-    <Dialog modal open={isTaskModal} onOpenChange={setIsTaskModal}>
+    <Dialog modal open={isTaskModal} onOpenChange={handleOpenChange}>
       <DialogContent
         onPointerDownOutside={(e) => e.preventDefault()}
         onEscapeKeyDown={(e) => e.preventDefault()}
@@ -54,7 +107,7 @@ const ModalCreateTask = () => {
         </DialogHeader>
         <form
           className="flex flex-col gap-4"
-          onSubmit={createTaskForm.handleSubmit(handleCreateTask)}
+          onSubmit={createTaskForm.handleSubmit(onSubmit)}
         >
           <FormInput
             type="text"
@@ -92,17 +145,17 @@ const ModalCreateTask = () => {
 
           <div className="flex gap-4">
             <DatePicker
-              name="startDate"
               placeholder="Select start date"
-              control={createTaskForm.control}
-              error={createTaskForm.formState.errors.startDate}
+              value={startDate}
+              onChange={setStartDate}
+              error={dateErrors.startDate}
             />
             <DatePicker
-              name="endDate"
               placeholder="Select end date"
-              control={createTaskForm.control}
-              minDate={createTaskForm.watch("startDate")}
-              error={createTaskForm.formState.errors.endDate}
+              value={endDate}
+              onChange={setEndDate}
+              minDate={startDate}
+              error={dateErrors.endDate}
             />
           </div>
 

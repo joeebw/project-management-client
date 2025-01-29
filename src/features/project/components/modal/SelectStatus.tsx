@@ -10,15 +10,15 @@ import { Controller, FieldError } from "react-hook-form";
 const STATUS = [
   {
     status: "To Do",
-    value: "to_do",
+    value: "todo",
   },
   {
     status: "Work In Progress",
-    value: "work_in_progress",
+    value: "in-progress",
   },
   {
     status: "Under Review",
-    value: "under_review",
+    value: "under-review",
   },
   {
     status: "Completed",

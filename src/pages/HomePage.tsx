@@ -1,10 +1,13 @@
 import NavBar from "@/features/dashboard/components/navBar/NavBar";
 import Sidebar from "@/features/dashboard/components/sidebar/Sidebar";
 import { Outlet } from "react-router";
+import { Toaster } from "sonner";
 
 const HomePage = () => {
   return (
     <div className="flex h-screen">
+      <Toaster richColors position="top-center" />
+
       {/* Sidebar */}
       <Sidebar />
 

@@ -49,7 +49,7 @@ const KanbanCard = ({
           >
             {card.priority}
           </span>
-          {card.tags.map((tag) => (
+          {card.tags?.map((tag) => (
             <span
               className={clsx(
                 "bg-blue-100",

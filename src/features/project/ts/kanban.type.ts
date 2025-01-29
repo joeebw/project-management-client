@@ -12,7 +12,7 @@ export interface Card {
   id: number;
   title: string;
   description: string;
-  tags: string[];
+  tags: string[] | null;
   startDate: string;
   endDate: string;
   assignees: string[];

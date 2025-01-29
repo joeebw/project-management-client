@@ -3,6 +3,8 @@ import useKanbanBoard from "@/features/project/hooks/useKanbanBoard";
 import { kanbanSections } from "@/features/project/ts/kanban.enum";
 import { Board } from "@/features/project/ts/kanban.type";
 import useFetch from "@/hooks/useFetch";
+import { useStore } from "@/state/useStore";
+import { useEffect } from "react";
 import { useParams } from "react-router";
 
 type BoardConfig = {
@@ -19,9 +21,10 @@ const boardConfig: BoardConfig[] = [
 
 const KanbanBoard = () => {
   const { id } = useParams();
-  const { data: initialBoards } = useFetch<Board>(
+  const { data: initialBoards, refetch: refetchBoards } = useFetch<Board>(
     `/task/tasks-project/?id=${id}`
   );
+  const setRefetchBoards = useStore((state) => state.setRefetchBoards);
 
   const {
     boards,
@@ -31,6 +34,10 @@ const KanbanBoard = () => {
     handleDragOver,
     handleDrop,
   } = useKanbanBoard(initialBoards);
+
+  useEffect(() => {
+    setRefetchBoards(refetchBoards);
+  }, [refetchBoards]);
 
   return (
     <div className="py-4">

@@ -14,6 +14,9 @@ export type Store = {
 
 export type ProjectState = {
   isTaskModal: boolean;
+  refetchBoards: (() => void) | null;
+  setRefetchBoards: (refetch: () => void) => void;
+
   setIsTaskModal: (bool: boolean) => void;
 };
 
