@@ -8,19 +8,15 @@ export interface DragItem {
   sourceBoard: string;
 }
 
-export interface Tags {
-  tag: string;
-  color: string;
-}
-
 export interface Card {
   id: number;
   title: string;
   description: string;
-  tags: Tags[];
+  tags: string[];
   startDate: string;
   endDate: string;
   assignees: string[];
+  priority: "low" | "medium" | "high";
 }
 
 export interface Board {
@@ -34,5 +30,10 @@ export interface Board {
 export interface Comment {
   id: number;
   text: string;
+  userName: string;
+}
+
+export interface User {
+  id: number;
   userName: string;
 }

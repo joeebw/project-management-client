@@ -1,7 +1,7 @@
 import DropdownRemove from "@/features/project/components/kanban/DropdownRemove";
 import KabanCardComments from "@/features/project/components/kanban/KabanCardComments";
 import PeopleAssigned from "@/features/project/components/kanban/PeopleAssigned";
-import { tagColors } from "@/features/project/lib/project";
+import { tagPriorityColor } from "@/features/project/lib/project";
 import { Card } from "@/features/project/ts/kanban.type";
 import clsx from "clsx";
 import { MessageSquareMore } from "lucide-react";
@@ -16,17 +16,6 @@ type Props = {
   onDragOver: (e: React.DragEvent, board: string, index: number) => void;
   onDrop: (e: React.DragEvent, targetBoard: string, dropIndex: number) => void;
 };
-
-const Tags = [
-  {
-    name: "urgent",
-    color: "bg-yellow-300",
-  },
-  {
-    name: "software",
-    color: "bg-orange-300",
-  },
-];
 
 const KanbanCard = ({
   card,
@@ -51,10 +40,19 @@ const KanbanCard = ({
       <div className="flex justify-between">
         {/* Tags  */}
         <div className="flex gap-2 mb-2.5">
-          {card.tags.map(({ tag, color }) => (
+          <span
+            className={clsx(
+              tagPriorityColor[card.priority],
+              "text-gray-800 font-medium text-xs p-1.5 rounded-2xl cursor-default"
+            )}
+            key={card.priority}
+          >
+            {card.priority}
+          </span>
+          {card.tags.map((tag) => (
             <span
               className={clsx(
-                tagColors[color],
+                "bg-blue-100",
                 "text-gray-800 font-medium text-xs p-1.5 rounded-2xl cursor-default"
               )}
               key={tag}

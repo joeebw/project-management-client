@@ -3,6 +3,7 @@ import EmptyBoardPlaceholder from "@/features/project/components/kanban/EmptyBoa
 import KanbanCard from "@/features/project/components/kanban/KanbanCard";
 import { kanbanSections } from "@/features/project/ts/kanban.enum";
 import { Card, DropIndicatorState } from "@/features/project/ts/kanban.type";
+import { useStore } from "@/state/useStore";
 import clsx from "clsx";
 import { SquarePlus } from "lucide-react";
 import { Fragment } from "react/jsx-runtime";
@@ -35,18 +36,17 @@ export const KanbanColumn = ({
   onDragOver,
   onDrop,
 }: Props) => {
-  // Función auxiliar para manejar el dragOver en la columna
+  const setIsTaskModal = useStore((state) => state.setIsTaskModal);
+
   const handleColumnDragOver = (e: React.DragEvent) => {
     e.preventDefault();
     const column = e.currentTarget as HTMLElement;
     const columnRect = column.getBoundingClientRect();
     const y = e.clientY - columnRect.top;
 
-    // Encontrar el índice más cercano basado en la posición del cursor
-    const cardHeight = 100; // Altura aproximada de una tarjeta
+    const cardHeight = 100;
     let nearestIndex = Math.floor(y / cardHeight);
 
-    // Asegurarse de que el índice está dentro de los límites
     nearestIndex = Math.max(0, Math.min(nearestIndex, cards?.length ?? 0));
 
     onDragOver(e, boardName, nearestIndex);
@@ -68,7 +68,10 @@ export const KanbanColumn = ({
         )}
       >
         <h2 className="text-lg font-bold">{title}</h2>
-        <SquarePlus className="text-gray-700" />
+        <SquarePlus
+          className="text-gray-700 transition-all cursor-pointer hover:text-blue-600"
+          onClick={() => setIsTaskModal(true)}
+        />
       </div>
 
       <div className="space-y-2">

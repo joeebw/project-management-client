@@ -6,6 +6,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import UserAvatar from "@/components/UserAvatar";
 import DropdownRemove from "@/features/project/components/kanban/DropdownRemove";
 import { Comment } from "@/features/project/ts/kanban.type";
 import useFetch from "@/hooks/useFetch";
@@ -16,7 +17,13 @@ type Props = {
 };
 
 const KanbanCardCommentsList = ({ taskId }: Props) => {
-  const { data: comments } = useFetch<Comment[]>(`/task/comment/?id=${taskId}`);
+  const { data: comments, loading } = useFetch<Comment[]>(
+    `/task/comment/?id=${taskId}`
+  );
+
+  if (loading) {
+    return <Skeleton className="w-full mt-3 h-[7rem]" />;
+  }
 
   return (
     <div className="p-2 mt-3 text-sm bg-gray-100 rounded-md max-h-[7rem] overflow-y-auto cursor-default">
@@ -27,17 +34,12 @@ const KanbanCardCommentsList = ({ taskId }: Props) => {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger>
-                    <Avatar className="w-6 h-6">
-                      <AvatarImage
-                        src={`https://avatar.iran.liara.run/username?username=${userName.replace(
-                          " ",
-                          "+"
-                        )}`}
-                      />
-                      <AvatarFallback>
-                        <Skeleton className="w-5 h-5 rounded-full" />
-                      </AvatarFallback>
-                    </Avatar>
+                    <UserAvatar
+                      isLoading={false}
+                      name={userName}
+                      size="xs"
+                      className="p-1"
+                    />
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>{userName}</p>
@@ -54,6 +56,12 @@ const KanbanCardCommentsList = ({ taskId }: Props) => {
           )}
         </Fragment>
       ))}
+
+      {comments?.length === 0 && (
+        <span className="flex items-center justify-center font-medium text-sm text-gray-900 h-[7rem]">
+          There are no comments yet.
+        </span>
+      )}
     </div>
   );
 };

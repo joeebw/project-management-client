@@ -1,12 +1,10 @@
 import { Button } from "@/components/ui/button";
 import KanbanBoard from "@/features/project/components/kanban/KanbanBoard";
+import ModalCreateTask from "@/features/project/components/modal/ModalCreateTask";
 import TabsProject from "@/features/project/components/TabsProject";
 import { SquarePlus } from "lucide-react";
-import { useParams } from "react-router";
 
 const Project = () => {
-  const { id } = useParams();
-
   return (
     <>
       {/* Header */}
@@ -19,6 +17,8 @@ const Project = () => {
           New Boards
         </Button>
       </div>
+
+      <ModalCreateTask />
 
       {/* Divider */}
       <div className="mx-5 border-b border-gray-300" />

@@ -1,3 +1,4 @@
+import projectService from "@/features/project/services/projectService";
 import {
   Board,
   Card,
@@ -19,6 +20,7 @@ const useKanbanBoard = (initialBoards: Board | undefined) => {
     card: Card,
     sourceBoard: string
   ) => {
+    e.stopPropagation();
     draggedItemRef.current = { card, sourceBoard };
     e.dataTransfer.effectAllowed = "move";
     e.dataTransfer.setData(
@@ -29,26 +31,30 @@ const useKanbanBoard = (initialBoards: Board | undefined) => {
 
   const handleDragOver = (e: React.DragEvent, board: string, index: number) => {
     e.preventDefault();
+    e.stopPropagation();
+
     const draggedItem = draggedItemRef.current;
     if (!draggedItem) return;
 
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
     const y = e.clientY - rect.top;
+    const threshold = rect.height * 0.3;
 
     let adjustedIndex = index;
-    if (y > rect.height / 2) {
+    if (y > threshold) {
       adjustedIndex += 1;
     }
 
     const maxIndex = boards?.[board]?.length ?? 0;
     const safeIndex = Math.max(0, Math.min(adjustedIndex, maxIndex));
 
-    if (dropIndicator.board !== board || dropIndicator.index !== safeIndex) {
-      setDropIndicator({ board, index: safeIndex });
-    }
+    // Actualización directa sin debounce
+    setDropIndicator({ board, index: safeIndex });
   };
 
-  const handleDragEnd = () => {
+  const handleDragEnd = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     draggedItemRef.current = null;
     setDropIndicator({ board: null, index: null });
   };
@@ -59,6 +65,8 @@ const useKanbanBoard = (initialBoards: Board | undefined) => {
     dropIndex: number
   ) => {
     e.preventDefault();
+    e.stopPropagation();
+
     const draggedItem = draggedItemRef.current;
     if (!draggedItem || !boards) return;
 
@@ -67,24 +75,37 @@ const useKanbanBoard = (initialBoards: Board | undefined) => {
 
     if (sourceBoard === targetBoard && dropIndex === sourceIndex) return;
 
-    setBoards((prev) => {
-      if (!prev) return prev;
-      const newBoards = structuredClone(prev);
+    try {
+      setBoards((prev) => {
+        if (!prev) return prev;
 
-      newBoards[sourceBoard] = newBoards[sourceBoard].filter(
-        (c) => c.id !== card.id
-      );
+        const newBoards = structuredClone(prev);
 
-      if (!newBoards[targetBoard]) newBoards[targetBoard] = [];
-      const targetCards = [...newBoards[targetBoard]];
-      targetCards.splice(dropIndex, 0, card);
-      newBoards[targetBoard] = targetCards;
+        // Usando métodos nativos de array
+        if (newBoards[sourceBoard]?.some((c) => c.id === card.id)) {
+          newBoards[sourceBoard] = newBoards[sourceBoard].filter(
+            (c) => c.id !== card.id
+          );
+        }
 
-      return newBoards;
-    });
+        if (!newBoards[targetBoard]) newBoards[targetBoard] = [];
+        const targetCards = [...newBoards[targetBoard]];
 
-    draggedItemRef.current = null;
-    setDropIndicator({ board: null, index: null });
+        if (!targetCards.some((c) => c.id === card.id)) {
+          targetCards.splice(dropIndex, 0, card);
+          newBoards[targetBoard] = targetCards;
+        }
+
+        return newBoards;
+      });
+
+      await projectService.updateStatusTask(card, targetBoard);
+    } catch (error) {
+      console.error("Error while moving the card:", error);
+    } finally {
+      draggedItemRef.current = null;
+      setDropIndicator({ board: null, index: null });
+    }
   };
 
   useEffect(() => {
@@ -100,4 +121,5 @@ const useKanbanBoard = (initialBoards: Board | undefined) => {
     handleDrop,
   };
 };
+
 export default useKanbanBoard;

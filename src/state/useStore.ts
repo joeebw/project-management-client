@@ -1,32 +1,14 @@
-import { User } from "@/state/useStore.type";
-import { create, StateCreator } from "zustand";
+import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
+import { createAuthSlice } from "./authSlice";
+import { createProjectSlice } from "./projectSlice";
+import { StoreState } from "@/state/useStore.type";
 
-type Store = {
-  isSignIn: boolean;
-  user: User;
-
-  setIsSignIn: () => void;
-  setUser: (user: User) => void;
-  resetStore: () => void;
-};
-
-const INITIAL_STORE_STATE = {
-  isSignIn: true,
-  user: null,
-};
-
-const createAuthSlice: StateCreator<Store> = (set) => ({
-  ...INITIAL_STORE_STATE,
-  setIsSignIn: () => set((state) => ({ isSignIn: !state.isSignIn })),
-  setUser: (user) => set(() => ({ user })),
-  resetStore: () => set(INITIAL_STORE_STATE),
-});
-
-export const useStore = create<Store>()(
+export const useStore = create<StoreState>()(
   persist(
     (...arg) => ({
       ...createAuthSlice(...arg),
+      ...createProjectSlice(...arg),
     }),
     {
       name: "auth-storage",
