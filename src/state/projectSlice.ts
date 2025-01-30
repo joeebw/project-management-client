@@ -18,7 +18,19 @@ export const createProjectSlice: StateCreator<
   setIsTaskModal: (bool: boolean) => set(() => ({ isTaskModal: bool })),
   setRefetchBoards: (refetch) => set(() => ({ refetchBoards: refetch })),
   openConfirmationModal: (config) =>
-    set(() => ({ isConfirmationModal: true, configConfirmationModal: config })),
+    set(() => {
+      console.log("Opening modal with config:", config);
+      return {
+        isConfirmationModal: true,
+        configConfirmationModal: config,
+      };
+    }),
   closeConfirmationModal: () =>
-    set(() => ({ isConfirmationModal: false, configConfirmationModal: null })),
+    set(() => {
+      console.log("Closing modal");
+      return {
+        isConfirmationModal: false,
+        configConfirmationModal: null,
+      };
+    }),
 });

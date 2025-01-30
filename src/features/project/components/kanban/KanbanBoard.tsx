@@ -24,6 +24,7 @@ const KanbanBoard = () => {
   const { data: initialBoards, refetch: refetchBoards } = useFetch<Board>(
     `/task/tasks-project/?id=${id}`
   );
+
   const setRefetchBoards = useStore((state) => state.setRefetchBoards);
 
   const {

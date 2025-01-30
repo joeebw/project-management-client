@@ -19,9 +19,7 @@ const DropdownRemove = ({ className, idTask }: Props) => {
   const openConfirmationModal = useStore(
     (state) => state.openConfirmationModal
   );
-  const closeConfirmationModal = useStore(
-    (state) => state.closeConfirmationModal
-  );
+
   const refetchBoards = useStore((state) => state.refetchBoards);
 
   const handleRemoveTask = async () => {
@@ -34,9 +32,8 @@ const DropdownRemove = ({ className, idTask }: Props) => {
       onConfirm: async () => {
         try {
           await api.delete(`/task/delete/?id=${idTask}`);
-          refetchBoards?.();
           toast.success("Your task has been successfully deleted.");
-          closeConfirmationModal();
+          refetchBoards?.();
         } catch (err) {
           console.log(err);
           toast.error("Oops! Something unexpected happened.Please try again.");
