@@ -4,6 +4,8 @@ import { StateCreator } from "zustand";
 const INITIAL_PROJECT_STATE = {
   isTaskModal: false,
   refetchBoards: null,
+  isConfirmationModal: false,
+  configConfirmationModal: null,
 };
 
 export const createProjectSlice: StateCreator<
@@ -15,4 +17,8 @@ export const createProjectSlice: StateCreator<
   ...INITIAL_PROJECT_STATE,
   setIsTaskModal: (bool: boolean) => set(() => ({ isTaskModal: bool })),
   setRefetchBoards: (refetch) => set(() => ({ refetchBoards: refetch })),
+  openConfirmationModal: (config) =>
+    set(() => ({ isConfirmationModal: true, configConfirmationModal: config })),
+  closeConfirmationModal: () =>
+    set(() => ({ isConfirmationModal: false, configConfirmationModal: null })),
 });

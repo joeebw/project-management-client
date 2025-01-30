@@ -17,6 +17,23 @@ export type ProjectState = {
   refetchBoards: (() => void) | null;
   setRefetchBoards: (refetch: () => void) => void;
 
+  isConfirmationModal: boolean;
+  configConfirmationModal: {
+    title: string;
+    description: string;
+    confirmLabel?: string;
+    cancelLabel?: string;
+    onConfirm: () => void | Promise<void>;
+  } | null;
+
+  openConfirmationModal: (config: {
+    title: string;
+    description: string;
+    confirmLabel?: string;
+    cancelLabel?: string;
+    onConfirm: () => void | Promise<void>;
+  }) => void;
+  closeConfirmationModal: () => void;
   setIsTaskModal: (bool: boolean) => void;
 };
 

@@ -62,7 +62,7 @@ const KanbanCard = ({
           ))}
         </div>
 
-        <DropdownRemove className="w-5" />
+        <DropdownRemove className="w-5" idTask={card.id} />
       </div>
 
       <h3 className="font-semibold">{card.title}</h3>

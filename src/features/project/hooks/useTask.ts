@@ -1,7 +1,7 @@
 import {
   CreateFormData,
   modalTaskDefaultValues,
-} from "@/features/project/components/modal/ModalCreateTask";
+} from "@/features/project/hooks/useModalCreateTask/utils";
 import projectService from "@/features/project/services/projectService";
 import { useStore } from "@/state/useStore";
 import { UseFormReturn } from "react-hook-form";
