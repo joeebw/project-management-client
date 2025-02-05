@@ -48,7 +48,6 @@ const useKanbanBoard = (initialBoards: Board | undefined) => {
     const maxIndex = boards?.[board]?.length ?? 0;
     const safeIndex = Math.max(0, Math.min(adjustedIndex, maxIndex));
 
-    // Actualización directa sin debounce
     setDropIndicator({ board, index: safeIndex });
   };
 
@@ -81,7 +80,6 @@ const useKanbanBoard = (initialBoards: Board | undefined) => {
 
         const newBoards = structuredClone(prev);
 
-        // Usando métodos nativos de array
         if (newBoards[sourceBoard]?.some((c) => c.id === card.id)) {
           newBoards[sourceBoard] = newBoards[sourceBoard].filter(
             (c) => c.id !== card.id

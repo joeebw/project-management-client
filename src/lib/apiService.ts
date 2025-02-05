@@ -21,28 +21,30 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
-    if (error.response?.status === 401 && !error.config._retry) {
-      console.log("Running inside status 401");
-      error.config._retry = true;
-      const refreshToken = getRefreshToken();
+    const originalConfig = error.config;
+
+    if (error.response?.status === 401 && !originalConfig._retry) {
+      originalConfig._retry = true;
 
       try {
+        const refreshToken = getRefreshToken();
         const { data } = await axios.post(
           `${import.meta.env.VITE_BASE_URL}/auth/refresh`,
           { refreshToken }
         );
+
         setAccessToken(data.accessToken);
-        error.config.headers.Authorization = `Bearer ${data.accessToken}`;
-        console.log("success getting new access token");
-        return api(error.config);
+        originalConfig.headers.Authorization = `Bearer ${data.accessToken}`;
+
+        return api(originalConfig);
       } catch (err) {
         removeTokens();
         window.location.href = "/";
         return Promise.reject(err);
       }
     }
+
     return Promise.reject(error);
   }
 );
-
 export default api;

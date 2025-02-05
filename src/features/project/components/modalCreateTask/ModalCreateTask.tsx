@@ -6,10 +6,11 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import FormInput from "@/features/auth/components/FormInput";
-import DatePicker from "@/features/project/components/modal/DatePickerStart";
-import SelectPriority from "@/features/project/components/modal/SelectPriority";
-import SelectStatus from "@/features/project/components/modal/SelectStatus";
-import SelectUser from "@/features/project/components/modal/selectUser/SelectUser";
+import DatePicker from "@/features/project/components/DatePickerStart";
+import SelectPriority from "@/features/project/components/modalCreateTask/SelectPriority";
+import SelectStatus from "@/features/project/components/modalCreateTask/SelectStatus";
+import SelectUser from "@/features/project/components/modalCreateTask/selectUser/SelectUser";
+
 import useModalCreateTask from "@/features/project/hooks/useModalCreateTask/useModalCreateTask";
 import { Loader2 } from "lucide-react";
 
@@ -33,7 +34,7 @@ const ModalCreateTask = () => {
         onEscapeKeyDown={(e) => e.preventDefault()}
       >
         <DialogHeader>
-          <DialogTitle>Create new Task</DialogTitle>
+          <DialogTitle>Create New Task</DialogTitle>
         </DialogHeader>
         <form
           className="flex flex-col gap-4"

@@ -13,14 +13,13 @@ import { toast } from "sonner";
 type Props = {
   className?: string;
   idTask: number;
+  refetch: (() => void) | null;
 };
 
-const DropdownRemove = ({ className, idTask }: Props) => {
+const DropdownRemoveTask = ({ className, idTask, refetch }: Props) => {
   const openConfirmationModal = useStore(
     (state) => state.openConfirmationModal
   );
-
-  const refetchBoards = useStore((state) => state.refetchBoards);
 
   const handleRemoveTask = async () => {
     openConfirmationModal({
@@ -33,7 +32,7 @@ const DropdownRemove = ({ className, idTask }: Props) => {
         try {
           await api.delete(`/task/delete/?id=${idTask}`);
           toast.success("Your task has been successfully deleted.");
-          refetchBoards?.();
+          refetch?.();
         } catch (err) {
           console.log(err);
           toast.error("Oops! Something unexpected happened.Please try again.");
@@ -59,4 +58,4 @@ const DropdownRemove = ({ className, idTask }: Props) => {
   );
 };
 
-export default DropdownRemove;
+export default DropdownRemoveTask;

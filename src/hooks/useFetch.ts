@@ -3,7 +3,12 @@ import { getErrorMessage } from "@/lib/utils";
 import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 
-const useFetch = <T>(url: string) => {
+const useFetch = <T>(
+  url: string,
+  options?: {
+    onSuccess?: (data: T) => void;
+  }
+) => {
   const [data, setData] = useState<T>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -14,6 +19,9 @@ const useFetch = <T>(url: string) => {
       setError(null);
       const response = await api(url);
       setData(response.data);
+      if (options?.onSuccess) {
+        options.onSuccess(response.data);
+      }
     } catch (err) {
       getErrorMessage(err);
       const error = err as AxiosError;

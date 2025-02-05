@@ -26,6 +26,10 @@ const useModalCreateTask = () => {
 
   const isTaskModal = useStore((state) => state.isTaskModal);
   const setIsTaskModal = useStore((state) => state.setIsTaskModal);
+  const refetchBoards = useStore((state) => state.refetchBoards);
+  const refetchList = useStore((state) => state.refetchList);
+  const refetchTable = useStore((state) => state.refetchTable);
+  const projectSection = useStore((state) => state.projectSection);
   const { handleCreateTask } = useTask();
 
   const resetDatePicker = () => {
@@ -48,7 +52,16 @@ const useModalCreateTask = () => {
       endDate: !endDate ? "End date is required" : "",
     };
     setDateErrors(errors);
-    if (!startDate || !endDate) return;
+
+    const refetchFunction =
+      projectSection === "board"
+        ? refetchBoards
+        : projectSection === "list"
+        ? refetchList
+        : refetchTable;
+
+    if (!startDate || !endDate || !refetchFunction) return;
+
     await handleCreateTask(
       {
         ...data,
@@ -56,7 +69,8 @@ const useModalCreateTask = () => {
         endDate,
       },
       createTaskForm,
-      resetDatePicker
+      resetDatePicker,
+      refetchFunction
     );
   };
 

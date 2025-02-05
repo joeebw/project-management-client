@@ -1,4 +1,4 @@
-import MultiSelectUsers from "@/features/project/components/modal/selectUser/MultipleSelectUsers";
+import MultiSelectUsers from "@/features/project/components/modalCreateTask/selectUser/MultipleSelectUsers";
 import { User } from "@/features/project/ts/kanban.type";
 import useFetch from "@/hooks/useFetch";
 import { Controller, FieldError, Merge } from "react-hook-form";

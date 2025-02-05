@@ -26,12 +26,12 @@ type ResetDatePicker = () => void;
 const useTask = () => {
   const { id } = useParams();
   const setIsTaskModal = useStore((state) => state.setIsTaskModal);
-  const refetchBoards = useStore((state) => state.refetchBoards);
 
   const handleCreateTask = async (
     data: CreateFormData & { startDate: Date; endDate: Date },
     createTaskForm: CreateTaskForm,
-    resetDatePicker: ResetDatePicker
+    resetDatePicker: ResetDatePicker,
+    refetchFunction: () => void
   ) => {
     if (!id) return;
 
@@ -45,7 +45,7 @@ const useTask = () => {
       createTaskForm.reset(modalTaskDefaultValues);
       resetDatePicker();
       setIsTaskModal(false);
-      refetchBoards?.();
+      refetchFunction();
       toast.success("Task created successfully!!");
     } catch (err) {
       console.error(err);

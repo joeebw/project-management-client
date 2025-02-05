@@ -1,3 +1,5 @@
+import { Comment } from "@/features/project/ts/kanban.type";
+
 export type User = {
   email: string;
   id: number;
@@ -13,11 +15,22 @@ export type Store = {
 };
 
 export type ProjectState = {
-  isTaskModal: boolean;
-  refetchBoards: (() => void) | null;
-  setRefetchBoards: (refetch: () => void) => void;
+  // Project states
+  projectSection: string;
 
+  // Project actions
+  setProjectSection: (section: string) => void;
+
+  // Modal states
+  isProjectModal: boolean;
+  isTaskModal: boolean;
   isConfirmationModal: boolean;
+
+  // Modal actions
+  setIsProjectModal: (bool: boolean) => void;
+  setIsTaskModal: (bool: boolean) => void;
+
+  // Confirmation modal config
   configConfirmationModal: {
     title: string;
     description: string;
@@ -25,7 +38,6 @@ export type ProjectState = {
     cancelLabel?: string;
     onConfirm: () => void | Promise<void>;
   } | null;
-
   openConfirmationModal: (config: {
     title: string;
     description: string;
@@ -34,7 +46,21 @@ export type ProjectState = {
     onConfirm: () => void | Promise<void>;
   }) => void;
   closeConfirmationModal: () => void;
-  setIsTaskModal: (bool: boolean) => void;
+
+  // Refetch functions
+  refetchBoards: (() => void) | null;
+  refetchProjects: (() => void) | null;
+  refetchList: (() => void) | null;
+  refetchTable: (() => void) | null;
+  setRefetchBoards: (refetch: () => void) => void;
+  setRefetchProjects: (refetch: () => void) => void;
+  setRefetchList: (refetch: () => void) => void;
+  setRefetchTable: (refetch: () => void) => void;
+
+  // Comments handling
+  comments: Record<string, Comment[]>;
+  setComments: (taskId: number, comments: Comment[]) => void;
+  addComment: (taskId: number, comment: Comment) => void;
 };
 
 export interface StoreState extends Store, ProjectState {}

@@ -1,8 +1,9 @@
-import DropdownRemove from "@/features/project/components/kanban/DropdownRemove";
-import KabanCardComments from "@/features/project/components/kanban/KabanCardComments";
+import DropdownRemoveTask from "@/features/project/components/kanban/DropdownRemoveTask";
+import KabanCardComments from "@/features/project/components/kanban/KanbanCardComments/KabanCardComments";
 import PeopleAssigned from "@/features/project/components/kanban/PeopleAssigned";
 import { tagPriorityColor } from "@/features/project/lib/project";
 import { Card } from "@/features/project/ts/kanban.type";
+import { useStore } from "@/state/useStore";
 import clsx from "clsx";
 import { MessageSquareMore } from "lucide-react";
 import { useState } from "react";
@@ -28,6 +29,8 @@ const KanbanCard = ({
 }: Props) => {
   const [isCommentsOpen, setIsCommentsOpen] = useState(false);
 
+  const refetchBoards = useStore((state) => state.refetchBoards);
+
   return (
     <div
       className="p-3.5 bg-white shadow cursor-move rounded-xl"
@@ -43,7 +46,7 @@ const KanbanCard = ({
           <span
             className={clsx(
               tagPriorityColor[card.priority],
-              "text-gray-800 font-medium text-xs p-1.5 rounded-2xl cursor-default"
+              "font-medium text-xs p-1.5 rounded-2xl cursor-default"
             )}
             key={card.priority}
           >
@@ -53,7 +56,7 @@ const KanbanCard = ({
             <span
               className={clsx(
                 "bg-blue-100",
-                "text-gray-800 font-medium text-xs p-1.5 rounded-2xl cursor-default"
+                "text-blue-800 font-medium text-xs p-1.5 rounded-2xl cursor-default"
               )}
               key={tag}
             >
@@ -62,7 +65,11 @@ const KanbanCard = ({
           ))}
         </div>
 
-        <DropdownRemove className="w-5" idTask={card.id} />
+        <DropdownRemoveTask
+          className="w-5"
+          idTask={card.id}
+          refetch={refetchBoards}
+        />
       </div>
 
       <h3 className="font-semibold">{card.title}</h3>

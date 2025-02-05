@@ -1,4 +1,3 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Tooltip,
@@ -7,9 +6,10 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import UserAvatar from "@/components/UserAvatar";
-import DropdownRemove from "@/features/project/components/kanban/DropdownRemove";
+import DropdownRemoveComment from "@/features/project/components/kanban/KanbanCardComments/DropdownRemoveComment";
 import { Comment } from "@/features/project/ts/kanban.type";
 import useFetch from "@/hooks/useFetch";
+import { useStore } from "@/state/useStore";
 import { Fragment } from "react/jsx-runtime";
 
 type Props = {
@@ -17,8 +17,16 @@ type Props = {
 };
 
 const KanbanCardCommentsList = ({ taskId }: Props) => {
-  const { data: comments, loading } = useFetch<Comment[]>(
-    `/task/comment/?id=${taskId}`
+  const comments = useStore((state) => state.comments[taskId]);
+  const setComments = useStore((state) => state.setComments);
+
+  const { loading, refetch } = useFetch<Comment[]>(
+    `/task/comment/?id=${taskId}`,
+    {
+      onSuccess: (data) => {
+        setComments(taskId, data);
+      },
+    }
   );
 
   if (loading) {
@@ -49,7 +57,11 @@ const KanbanCardCommentsList = ({ taskId }: Props) => {
               <p>{text}</p>
             </div>
 
-            <DropdownRemove className="w-4" />
+            <DropdownRemoveComment
+              className="w-4"
+              idComment={id}
+              refetch={refetch}
+            />
           </div>
           {idx !== comments.length - 1 && (
             <div className="my-1.5 border-b border-gray-300" />

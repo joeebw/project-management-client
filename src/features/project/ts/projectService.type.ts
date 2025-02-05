@@ -9,3 +9,14 @@ export type CreateTaskParam = {
   tags: string[] | null;
   projectId: number;
 };
+
+export type RespCreateTask = {
+  id: number;
+};
+
+export type CreateProjectParam = {
+  projectName: string;
+  description: string;
+  startDate: Date;
+  endDate: Date;
+};

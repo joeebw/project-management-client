@@ -2,29 +2,25 @@ import { Skeleton } from "@/components/ui/skeleton";
 import SidebarContent from "@/features/dashboard/components/sidebar/SidebarContent";
 import { Project } from "@/features/dashboard/ts/project.type";
 import useFetch from "@/hooks/useFetch";
+import { useStore } from "@/state/useStore";
 import clsx from "clsx";
 import { Briefcase } from "lucide-react";
+import { useEffect } from "react";
 import { Link, useLocation } from "react-router";
 
-const MENU_NAVIGATION = [
-  {
-    name: "Project Management",
-    id: 1,
-  },
-  {
-    name: "Calendar App",
-    id: 2,
-  },
-  {
-    name: "Hive Hosting App",
-    id: 3,
-  },
-];
-
 const Projects = () => {
+  const setRefetchProjects = useStore((state) => state.setRefetchProjects);
   const { pathname } = useLocation();
 
-  const { data: menuNavigation, loading } = useFetch<Project[]>("/project");
+  const {
+    data: menuNavigation,
+    loading,
+    refetch,
+  } = useFetch<Project[]>("/project");
+
+  useEffect(() => {
+    setRefetchProjects(refetch);
+  }, [refetch]);
 
   return (
     <div className="flex flex-col flex-1 min-h-0 mt-3">
