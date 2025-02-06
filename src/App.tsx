@@ -7,6 +7,7 @@ import Users from "@/features/Users/components/Users";
 import Settings from "@/features/settings/components/Settings";
 import Timeline from "@/features/timeline/components/Timeline";
 import Project from "@/features/project/components/Project";
+import Home from "@/features/home/components/Home";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           </ProtectedRoute>
         }
       >
+        <Route index element={<Home />} />
         <Route path="timeline" element={<Timeline />} />
         <Route path="settings" element={<Settings />} />
         <Route path="users" element={<Users />} />

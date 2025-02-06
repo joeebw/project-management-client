@@ -17,13 +17,8 @@ import {
   getStatusColor,
   tagPriorityColor,
 } from "@/features/project/lib/project";
-import { Loader2, MoreHorizontal, Trash } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { Loader2 } from "lucide-react";
+
 import DropdownRemoveTask from "@/features/project/components/kanban/DropdownRemoveTask";
 
 const ITEMS_PER_PAGE = 6;
