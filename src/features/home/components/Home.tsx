@@ -1,5 +1,5 @@
 import DashboardCharts from "@/features/home/components/dashboardCharts/DashboardCharts";
-import MyTasksTable from "@/features/home/components/MyTasksTable";
+import MyTasksTable from "@/features/home/components/myTaskTable/MyTasksTable";
 
 const Home = () => {
   return (

@@ -4,8 +4,9 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import clsx from "clsx";
 import { useNavigate } from "react-router";
 import useFetch from "@/hooks/useFetch";
-import { Project } from "@/features/dashboard/ts/project.type";
+
 import { Briefcase, Loader2, Search } from "lucide-react";
+import { Project } from "@/ts/shared.types";
 
 type Props = {
   className?: string;

@@ -44,6 +44,10 @@ const KanbanBoard = () => {
   }, [refetchBoards]);
 
   useEffect(() => {
+    setArtificialLoading(true);
+  }, [id]);
+
+  useEffect(() => {
     if (!loading) {
       const timer = setTimeout(() => {
         setArtificialLoading(false);
@@ -59,7 +63,7 @@ const KanbanBoard = () => {
     <div className="py-4">
       <div className="grid grid-cols-4 gap-4 text-black">
         {isLoading ? (
-          <div className="flex items-center justify-center h-56 col-span-4">
+          <div className="flex justify-center col-span-4 pt-28">
             <Loader2 className="w-8 h-8 animate-spin" />
           </div>
         ) : (

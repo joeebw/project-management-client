@@ -30,12 +30,16 @@ const List = () => {
       </div>
 
       {loading ? (
-        <div className="flex justify-center mt-8">
+        <div className="flex justify-center pt-24">
           <LoaderCircle className="w-9 h-9 animate-spin" />
+        </div>
+      ) : !tasks || tasks.length === 0 ? (
+        <div className="flex items-center justify-center h-[250px]">
+          <div className="text-muted-foreground">No tasks found</div>
         </div>
       ) : (
         <div className="grid grid-cols-3 gap-5 mt-6">
-          {tasks?.map((task) => (
+          {tasks.map((task) => (
             <Card key={task.id}>
               <CardContent className="flex flex-col gap-2 pt-6">
                 <TaskField label="ID" value={task.id} />

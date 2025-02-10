@@ -1,7 +1,5 @@
 import { DateErrors } from "@/features/project/hooks/useModalCreateTask/utils";
 import projectService from "@/features/project/services/projectService";
-import { RespCreateTask } from "@/features/project/ts/projectService.type";
-import api from "@/lib/apiService";
 import { useStore } from "@/state/useStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";

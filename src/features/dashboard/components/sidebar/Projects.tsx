@@ -1,8 +1,9 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import SidebarContent from "@/features/dashboard/components/sidebar/SidebarContent";
-import { Project } from "@/features/dashboard/ts/project.type";
+
 import useFetch from "@/hooks/useFetch";
 import { useStore } from "@/state/useStore";
+import { Project } from "@/ts/shared.types";
 import clsx from "clsx";
 import { Briefcase } from "lucide-react";
 import { useEffect } from "react";
