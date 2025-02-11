@@ -85,7 +85,7 @@ const TimelineTable = () => {
   };
 
   return (
-    <div className="w-full h-[462px] flex flex-col border border-gray-200 bg-gray-50 rounded-lg shadow-md mt-5">
+    <div className="w-full h-[462px] flex flex-col border border-gray-200 bg-white rounded-lg shadow-md mt-5">
       {loading ? (
         <div className="flex items-center justify-center h-full">
           <Loader2 className="w-8 h-8 animate-spin" />

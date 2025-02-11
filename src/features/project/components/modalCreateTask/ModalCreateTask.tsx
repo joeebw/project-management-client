@@ -5,7 +5,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import FormInput from "@/features/auth/components/FormInput";
+import FormInput from "@/components/FormInput";
 import DatePicker from "@/features/project/components/DatePickerStart";
 import SelectPriority from "@/features/project/components/modalCreateTask/SelectPriority";
 import SelectStatus from "@/features/project/components/modalCreateTask/SelectStatus";

@@ -85,10 +85,15 @@ const KanbanCard = ({
 
       <div className="flex items-center justify-between">
         <PeopleAssigned assignees={card.assignees} />
-        <MessageSquareMore
-          className="w-5 h-5 text-black cursor-pointer"
-          onClick={() => setIsCommentsOpen(!isCommentsOpen)}
-        />
+        <div className="relative">
+          <MessageSquareMore
+            className="w-5 h-5 text-black cursor-pointer"
+            onClick={() => setIsCommentsOpen(!isCommentsOpen)}
+          />
+          {card.hasComments && (
+            <div className="absolute w-4 h-4 text-xs text-white bg-blue-500 rounded-full -top-2 -right-2" />
+          )}
+        </div>
       </div>
 
       {/* Comments */}

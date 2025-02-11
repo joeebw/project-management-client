@@ -17,6 +17,7 @@ export interface Card {
   endDate: string;
   assignees: string[];
   priority: "low" | "medium" | "high";
+  hasComments: boolean;
 }
 
 export interface Board {

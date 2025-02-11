@@ -6,7 +6,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
-import FormInput from "@/features/auth/components/FormInput";
+import FormInput from "@/components/FormInput";
 import DatePicker from "@/features/project/components/DatePickerStart";
 import useModalCreteProject from "@/features/project/hooks/useModalCreateProject";
 import { Loader2 } from "lucide-react";

@@ -34,7 +34,7 @@ const KanbanCardCommentsList = ({ taskId }: Props) => {
   }
 
   return (
-    <div className="p-2 mt-3 text-sm bg-gray-100 rounded-md max-h-[7rem] overflow-y-auto cursor-default">
+    <div className="p-2 mt-3 text-sm bg-gray-100 rounded-md h-[7rem] overflow-y-auto cursor-default">
       {comments?.map(({ id, text, userName }, idx) => (
         <Fragment key={id}>
           <div className="flex items-center justify-between">

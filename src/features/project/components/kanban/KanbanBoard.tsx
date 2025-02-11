@@ -57,6 +57,15 @@ const KanbanBoard = () => {
     }
   }, [loading]);
 
+  // Refetch boards every 15 minutes
+  useEffect(() => {
+    const interval = setInterval(() => {
+      refetchBoards();
+    }, 15 * 60 * 1000);
+
+    return () => clearInterval(interval);
+  }, [refetchBoards]);
+
   const isLoading = loading || artificialLoading;
 
   return (

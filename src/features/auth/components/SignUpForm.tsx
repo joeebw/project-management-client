@@ -1,6 +1,6 @@
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import FormInput from "@/features/auth/components/FormInput";
+import FormInput from "@/components/FormInput";
 import { Loader2 } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
 

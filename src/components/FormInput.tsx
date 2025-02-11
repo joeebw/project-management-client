@@ -7,6 +7,7 @@ type Props = {
   error?: FieldError;
   register: any;
   className?: string;
+  id: string;
 };
 
 const FormInput = ({
@@ -15,6 +16,7 @@ const FormInput = ({
   error,
   register,
   className = "",
+  id,
 }: Props) => {
   return (
     <div>
@@ -23,6 +25,7 @@ const FormInput = ({
         placeholder={placeholder}
         className={`!text-sm ${className}`}
         {...register}
+        id={id}
       />
       {error && <p className="text-sm text-red-500">{error.message}</p>}
     </div>

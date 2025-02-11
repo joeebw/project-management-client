@@ -44,6 +44,7 @@ const useFetch = <T>(
     loading,
     error,
     refetch,
+    setData,
   };
 };
 

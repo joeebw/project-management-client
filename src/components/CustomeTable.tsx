@@ -45,7 +45,7 @@ const CustomTable = <T extends Record<string, any>>({
 
   return (
     <div
-      className={`w-full border border-gray-200 bg-gray-50 rounded-lg shadow-md flex flex-col ${className}`}
+      className={`w-full border border-gray-200 bg-white rounded-lg shadow-md flex flex-col ${className}`}
     >
       <div className="flex-1 min-h-[377px] overflow-hidden">
         {loading ? (
@@ -62,7 +62,7 @@ const CustomTable = <T extends Record<string, any>>({
               <div style={{ minWidth: `${tableWidth}px` }}>
                 {/* Header */}
                 <div
-                  className="sticky top-0 z-10 grid border-b border-gray-200 bg-gray-50"
+                  className="sticky top-0 z-10 grid bg-white border-b border-gray-200"
                   style={{
                     gridTemplateColumns: columns
                       .map((col) => `${col.width || 150}px`)
