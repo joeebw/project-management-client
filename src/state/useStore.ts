@@ -11,8 +11,19 @@ export const useStore = create<StoreState>()(
       ...createProjectSlice(...arg),
     }),
     {
-      name: "auth-storage",
-      storage: createJSONStorage(() => sessionStorage),
+      name: "app-storage",
+      storage: createJSONStorage(() => {
+        try {
+          return localStorage;
+        } catch (err) {
+          console.error("Error accessing localStorage:", err);
+          return {
+            getItem: () => null,
+            setItem: () => null,
+            removeItem: () => null,
+          };
+        }
+      }),
       version: 1,
     }
   )

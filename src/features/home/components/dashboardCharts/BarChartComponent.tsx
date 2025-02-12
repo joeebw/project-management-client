@@ -13,7 +13,11 @@ import {
 } from "recharts";
 
 const BarChartComponent = () => {
-  const { data: barData, loading } = useFetch<ChartData[]>("/task/tasks-count");
+  const {
+    data: barData,
+    loading,
+    isInitialLoading,
+  } = useFetch<ChartData[]>("/task/tasks-count");
 
   return (
     <Card className="w-full">
@@ -23,23 +27,25 @@ const BarChartComponent = () => {
       <CardContent className="flex items-center justify-center h-80">
         {loading ? (
           <Loader2 className="w-5 h-5 animate-spin" />
-        ) : !barData ? (
+        ) : !barData && !isInitialLoading ? (
           <div className="text-center">No data available</div>
         ) : (
-          <div className="flex flex-col items-center w-full h-full">
-            <ResponsiveContainer width="90%" height="100%">
-              <BarChart data={barData}>
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="value" fill="#8884d8" />
-              </BarChart>
-            </ResponsiveContainer>
-            {/* Leyenda */}
-            <div className="mt-4">
-              <ChartLegend color="#8884d8" label="Count" />
+          barData && (
+            <div className="flex flex-col items-center w-full h-full">
+              <ResponsiveContainer width="90%" height="100%">
+                <BarChart data={barData}>
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="value" fill="#8884d8" />
+                </BarChart>
+              </ResponsiveContainer>
+              {/* Leyenda */}
+              <div className="mt-4">
+                <ChartLegend color="#8884d8" label="Count" />
+              </div>
             </div>
-          </div>
+          )
         )}
       </CardContent>
     </Card>

@@ -54,7 +54,7 @@ export const KanbanColumn = ({
 
   return (
     <div
-      className="p-4 bg-gray-100 rounded-lg min-h-96"
+      className="bg-gray-100 rounded-lg min-h-96"
       onDragOver={handleColumnDragOver}
       onDrop={(e) =>
         onDrop(e, boardName, dropIndicator.index ?? cards?.length ?? 0)
@@ -74,7 +74,7 @@ export const KanbanColumn = ({
         />
       </div>
 
-      <div className="space-y-2">
+      <div className="space-y-3">
         {cards?.map((card, index) => (
           <Fragment key={card.id}>
             {dropIndicator.board === boardName &&

@@ -1,13 +1,11 @@
 import { Skeleton } from "@/components/ui/skeleton";
+import ProjectItem from "@/features/dashboard/components/sidebar/ProjectItem";
 import SidebarContent from "@/features/dashboard/components/sidebar/SidebarContent";
-
 import useFetch from "@/hooks/useFetch";
 import { useStore } from "@/state/useStore";
 import { Project } from "@/ts/shared.types";
-import clsx from "clsx";
-import { Briefcase } from "lucide-react";
 import { useEffect } from "react";
-import { Link, useLocation } from "react-router";
+import { useLocation } from "react-router";
 
 const Projects = () => {
   const setRefetchProjects = useStore((state) => state.setRefetchProjects);
@@ -38,20 +36,7 @@ const Projects = () => {
       ) : (
         <div className="flex-1 mt-1.5 overflow-y-auto">
           {menuNavigation?.map(({ name, id }) => (
-            <Link to={`/home/project/${id}`} key={id}>
-              <div
-                className={clsx(
-                  "py-4 transition cursor-pointer hover:bg-gray-500",
-                  pathname.split("/").pop() === id.toString() &&
-                    "bg-gray-500 border-l-4 border-blue-400"
-                )}
-              >
-                <SidebarContent className="flex items-center gap-2">
-                  <Briefcase className="w-5 min-w-5" />
-                  <span className="font-medium line-clamp-1">{name}</span>
-                </SidebarContent>
-              </div>
-            </Link>
+            <ProjectItem key={id} pathname={pathname} id={id} name={name} />
           ))}
         </div>
       )}

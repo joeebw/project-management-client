@@ -100,7 +100,7 @@ const Settings = () => {
                 </label>
                 <FormInput
                   id="username"
-                  placeholder="Username"
+                  placeholder=""
                   register={settingsForm.register("userName")}
                   error={settingsForm.formState.errors.userName}
                 />
@@ -115,7 +115,7 @@ const Settings = () => {
                 </label>
                 <FormInput
                   id="email"
-                  placeholder="Email"
+                  placeholder=""
                   type="email"
                   register={settingsForm.register("email")}
                   error={settingsForm.formState.errors.email}
@@ -131,7 +131,7 @@ const Settings = () => {
                 </label>
                 <FormInput
                   id="role"
-                  placeholder="Role"
+                  placeholder=""
                   register={settingsForm.register("role")}
                   error={settingsForm.formState.errors.role}
                 />

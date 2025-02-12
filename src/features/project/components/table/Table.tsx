@@ -6,7 +6,7 @@ import {
   tagPriorityColor,
 } from "@/features/project/lib/project";
 import clsx from "clsx";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useStore } from "@/state/useStore";
 
 import DropdownRemoveTask from "@/features/project/components/kanban/DropdownRemoveTask";
@@ -26,11 +26,19 @@ export type Task = {
 
 const TableTask = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const {
     data: tasks,
     loading,
     refetch,
-  } = useFetch<Task[]>(`/task/tasks-project/?id=${id}&section=list`);
+    isInitialLoading,
+  } = useFetch<Task[]>(`/task/tasks-project/?id=${id}&section=list`, {
+    onError: (status) => {
+      if (status === 404) {
+        navigate("/not-found");
+      }
+    },
+  });
 
   const setIsTaskModal = useStore((state) => state.setIsTaskModal);
   const setRefetchTable = useStore((state) => state.setRefetchTable);
@@ -43,17 +51,14 @@ const TableTask = () => {
     {
       field: "title",
       header: "Title",
-      width: 200,
     },
     {
       field: "description",
       header: "Description",
-      width: 250,
     },
     {
       field: "status",
       header: "Status",
-      width: 150,
       render: (value) => {
         const status = value as Task["status"];
         return (
@@ -70,7 +75,6 @@ const TableTask = () => {
     {
       field: "priority",
       header: "Priority",
-      width: 150,
       render: (value) => {
         const priority = value as Task["priority"];
         return (
@@ -85,7 +89,6 @@ const TableTask = () => {
     {
       field: "tags",
       header: "Tags",
-      width: 200,
       render: (value) => {
         const tags = value as Task["tags"];
         return (
@@ -108,30 +111,22 @@ const TableTask = () => {
     {
       field: "startDate",
       header: "Start Date",
-      width: 150,
     },
     {
       field: "endDate",
       header: "End Date",
-      width: 150,
     },
     {
       field: "assignees",
       header: "Assignee",
-      width: 200,
       render: (value) => {
         const assignees = value as Task["assignees"];
-        return (
-          <div className="flex items-center gap-2">
-            <span className="text-sm">{assignees.join(", ")}</span>
-          </div>
-        );
+        return assignees.join(", ");
       },
     },
     {
       field: "id",
       header: "",
-      width: 100,
       render: (value) => {
         const id = value as Task["id"];
         return (
@@ -156,7 +151,12 @@ const TableTask = () => {
 
       <div className="px-4 mt-6">
         <div className="bg-white rounded-lg shadow-md">
-          <CustomTable<Task> data={tasks} columns={columns} loading={loading} />
+          <CustomTable<Task>
+            data={tasks}
+            columns={columns}
+            loading={loading}
+            isInitialLoading={isInitialLoading}
+          />
         </div>
       </div>
     </div>

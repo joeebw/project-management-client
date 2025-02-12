@@ -38,10 +38,10 @@ const KanbanCardCommentsList = ({ taskId }: Props) => {
       {comments?.map(({ id, text, userName }, idx) => (
         <Fragment key={id}>
           <div className="flex items-center justify-between">
-            <div className="flex gap-2">
+            <div className="flex items-start gap-2">
               <TooltipProvider>
                 <Tooltip>
-                  <TooltipTrigger>
+                  <TooltipTrigger className="flex-shrink-0">
                     <UserAvatar
                       isLoading={false}
                       name={userName}
@@ -54,7 +54,7 @@ const KanbanCardCommentsList = ({ taskId }: Props) => {
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
-              <p>{text}</p>
+              <p className="break-words">{text}</p>
             </div>
 
             <DropdownRemoveComment

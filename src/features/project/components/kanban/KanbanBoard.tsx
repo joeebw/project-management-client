@@ -6,7 +6,7 @@ import useFetch from "@/hooks/useFetch";
 import { useStore } from "@/state/useStore";
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 type BoardConfig = {
   name: string;
@@ -22,12 +22,20 @@ const boardConfig: BoardConfig[] = [
 
 const KanbanBoard = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [artificialLoading, setArtificialLoading] = useState(true);
   const {
     data: initialBoards,
     refetch: refetchBoards,
     loading,
-  } = useFetch<Board>(`/task/tasks-project/?id=${id}`);
+  } = useFetch<Board>(`/task/tasks-project/?id=${id}`, {
+    onError: (status) => {
+      if (status === 404) {
+        navigate("/not-found");
+      }
+    },
+  });
+
   const setRefetchBoards = useStore((state) => state.setRefetchBoards);
 
   const {
@@ -51,11 +59,11 @@ const KanbanBoard = () => {
     if (!loading) {
       const timer = setTimeout(() => {
         setArtificialLoading(false);
-      }, 10);
+      }, 300);
 
       return () => clearTimeout(timer);
     }
-  }, [loading]);
+  }, [loading, id]);
 
   // Refetch boards every 15 minutes
   useEffect(() => {
@@ -69,8 +77,8 @@ const KanbanBoard = () => {
   const isLoading = loading || artificialLoading;
 
   return (
-    <div className="py-4">
-      <div className="grid grid-cols-4 gap-4 text-black">
+    <div className="p-4">
+      <div className="grid grid-cols-4 gap-5 text-black">
         {isLoading ? (
           <div className="flex justify-center col-span-4 pt-28">
             <Loader2 className="w-8 h-8 animate-spin" />

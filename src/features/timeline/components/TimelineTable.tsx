@@ -14,7 +14,11 @@ const ITEMS_PER_PAGE = 5;
 
 const TimelineTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const { data: projects, loading } = useFetch<Project[]>("/project");
+  const {
+    data: projects,
+    loading,
+    isInitialLoading,
+  } = useFetch<Project[]>("/project");
 
   const totalPages = projects ? Math.ceil(projects.length / ITEMS_PER_PAGE) : 0;
 
@@ -90,7 +94,7 @@ const TimelineTable = () => {
         <div className="flex items-center justify-center h-full">
           <Loader2 className="w-8 h-8 animate-spin" />
         </div>
-      ) : !projects || projects.length === 0 ? (
+      ) : (!projects || projects.length === 0) && !isInitialLoading ? (
         <div className="flex items-center justify-center h-full">
           <div className="text-muted-foreground">No projects found</div>
         </div>

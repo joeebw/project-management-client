@@ -20,6 +20,7 @@ type CustomTableProps<T> = {
   data: T[] | undefined;
   columns: Column<T>[];
   loading?: boolean;
+  isInitialLoading: boolean;
   itemsPerPage?: number;
   className?: string;
 };
@@ -28,6 +29,7 @@ const CustomTable = <T extends Record<string, any>>({
   data,
   columns,
   loading = false,
+  isInitialLoading,
   itemsPerPage = 5,
   className = "",
 }: CustomTableProps<T>) => {
@@ -41,82 +43,82 @@ const CustomTable = <T extends Record<string, any>>({
     return data.slice(startIndex, startIndex + itemsPerPage);
   }, [currentPage, data, itemsPerPage]);
 
-  const tableWidth = columns.reduce((acc, col) => acc + (col.width || 150), 0);
-
   return (
     <div
       className={`w-full border border-gray-200 bg-white rounded-lg shadow-md flex flex-col ${className}`}
     >
-      <div className="flex-1 min-h-[377px] overflow-hidden">
+      <div className="flex-1 min-h-[377px]">
         {loading ? (
           <div className="flex items-center justify-center min-h-[inherit] h-full">
             <Loader2 className="w-8 h-8 animate-spin" />
           </div>
-        ) : !data || data.length === 0 ? (
+        ) : (!data || data.length === 0) && !isInitialLoading ? (
           <div className="flex items-center justify-center min-h-[inherit] h-full">
             <div className="text-muted-foreground">No data found</div>
           </div>
         ) : (
-          <div className="h-full overflow-y-auto">
-            <div className="overflow-x-auto">
-              <div style={{ minWidth: `${tableWidth}px` }}>
-                {/* Header */}
-                <div
-                  className="sticky top-0 z-10 grid bg-white border-b border-gray-200"
-                  style={{
-                    gridTemplateColumns: columns
-                      .map((col) => `${col.width || 150}px`)
-                      .join(" "),
-                  }}
-                >
-                  {columns.map((column) => (
-                    <div
-                      key={String(column.field)}
-                      className="px-4 py-4 text-sm font-medium text-muted-foreground"
-                    >
-                      {column.header}
-                    </div>
-                  ))}
-                </div>
+          <div className="h-full">
+            <div className="w-full">
+              {/* Header */}
+              <div
+                className="sticky top-0 z-10 grid bg-white border-b border-gray-200"
+                style={{
+                  gridTemplateColumns: columns
+                    .map((col) =>
+                      col.width ? `${col.width}px` : "minmax(100px, 1fr)"
+                    )
+                    .join(" "),
+                }}
+              >
+                {columns.map((column) => (
+                  <div
+                    key={String(column.field)}
+                    className="px-4 py-4 text-sm font-medium text-muted-foreground"
+                  >
+                    {column.header}
+                  </div>
+                ))}
+              </div>
 
-                {/* Body */}
-                <div className="border-b divide-y divide-gray-200">
-                  {paginatedData.map((row, rowIndex) => (
-                    <div
-                      key={rowIndex}
-                      className="grid items-center transition-colors hover:bg-gray-100"
-                      style={{
-                        gridTemplateColumns: columns
-                          .map((col) => `${col.width || 150}px`)
-                          .join(" "),
-                      }}
-                    >
-                      {columns.map((column) => (
-                        <div
-                          key={`${rowIndex}-${String(column.field)}`}
-                          className="flex px-4 h-[4rem] items-center text-sm"
-                        >
-                          <TooltipProvider>
-                            <Tooltip>
-                              <TooltipTrigger className="w-full">
-                                <div className="text-left truncate">
-                                  {column.render
-                                    ? column.render(row[column.field], row)
-                                    : row[column.field]}
-                                </div>
-                              </TooltipTrigger>
-                              <TooltipContent>
-                                <p className="max-w-xs line-clamp-2">
-                                  {String(row[column.field])}
-                                </p>
-                              </TooltipContent>
-                            </Tooltip>
-                          </TooltipProvider>
-                        </div>
-                      ))}
-                    </div>
-                  ))}
-                </div>
+              {/* Body */}
+              <div className="border-b divide-y divide-gray-200">
+                {paginatedData.map((row, rowIndex) => (
+                  <div
+                    key={rowIndex}
+                    className="grid items-center transition-colors hover:bg-gray-100 group"
+                    style={{
+                      gridTemplateColumns: columns
+                        .map((col) =>
+                          col.width ? `${col.width}px` : "minmax(100px, 1fr)"
+                        )
+                        .join(" "),
+                    }}
+                  >
+                    {columns.map((column) => (
+                      <div
+                        key={`${rowIndex}-${String(column.field)}`}
+                        className="flex px-4 h-[4rem] items-center text-sm"
+                      >
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger className="w-full">
+                              <div className="text-left truncate">
+                                {column.render
+                                  ? column.render(row[column.field], row)
+                                  : row[column.field]}
+                              </div>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p className="max-w-xs line-clamp-2">
+                                {String(row[column.field])}
+                              </p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </div>
+                    ))}
+                  </div>
+                ))}
               </div>
             </div>
           </div>

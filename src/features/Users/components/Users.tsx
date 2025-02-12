@@ -38,7 +38,11 @@ const columns: Column<User>[] = [
 ];
 
 const Users = () => {
-  const { data: users, loading } = useFetch<User[]>("/user/all-users");
+  const {
+    data: users,
+    loading,
+    isInitialLoading,
+  } = useFetch<User[]>("/user/all-users");
 
   return (
     <div className="p-5">
@@ -50,7 +54,12 @@ const Users = () => {
       </div>
 
       <div className="mt-5">
-        <CustomTable columns={columns} data={users} loading={loading} />
+        <CustomTable
+          columns={columns}
+          data={users}
+          loading={loading}
+          isInitialLoading={isInitialLoading}
+        />
       </div>
     </div>
   );

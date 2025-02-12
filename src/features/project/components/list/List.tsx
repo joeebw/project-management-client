@@ -6,15 +6,22 @@ import useFetch from "@/hooks/useFetch";
 import { useStore } from "@/state/useStore";
 import { LoaderCircle } from "lucide-react";
 import { useEffect } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 const List = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const {
     data: tasks,
     loading,
     refetch,
-  } = useFetch<Task[]>(`/task/tasks-project/?id=${id}&section=list`);
+  } = useFetch<Task[]>(`/task/tasks-project/?id=${id}&section=list`, {
+    onError: (status) => {
+      if (status === 404) {
+        navigate("/not-found");
+      }
+    },
+  });
   const setIsTaskModal = useStore((state) => state.setIsTaskModal);
   const setRefetchList = useStore((state) => state.setRefetchList);
 
