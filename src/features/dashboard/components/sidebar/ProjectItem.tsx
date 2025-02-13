@@ -57,7 +57,7 @@ const ProjectItem = ({ pathname, id, name }: Props) => {
             <DropdownRemoveProject
               idProject={id}
               refetch={refetchProjects}
-              className="w-5 h-5"
+              className="w-5 h-5 "
             />
           </div>
         </SidebarContent>

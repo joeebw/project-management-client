@@ -47,7 +47,9 @@ const DropdownRemoveProject = ({ className, idProject, refetch }: Props) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <EllipsisVertical className={clsx("cursor-pointer", className)} />
+        <div className="p-1 transition rounded-md hover:bg-gray-400">
+          <EllipsisVertical className={clsx("cursor-pointer", className)} />
+        </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem
