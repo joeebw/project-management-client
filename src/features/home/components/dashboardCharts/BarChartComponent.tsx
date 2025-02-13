@@ -13,11 +13,7 @@ import {
 } from "recharts";
 
 const BarChartComponent = () => {
-  const {
-    data: barData,
-    loading,
-    isInitialLoading,
-  } = useFetch<ChartData[]>("/task/tasks-count");
+  const { data: barData, loading } = useFetch<ChartData[]>("/task/tasks-count");
 
   return (
     <Card className="w-full">
@@ -27,7 +23,7 @@ const BarChartComponent = () => {
       <CardContent className="flex items-center justify-center h-80">
         {loading ? (
           <Loader2 className="w-5 h-5 animate-spin" />
-        ) : !barData && !isInitialLoading ? (
+        ) : !barData ? (
           <div className="text-center">No data available</div>
         ) : (
           barData && (

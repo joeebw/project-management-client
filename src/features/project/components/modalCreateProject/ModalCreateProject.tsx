@@ -43,6 +43,7 @@ const ModalCreateProject = () => {
             type="text"
             register={createProjectForm.register("projectName")}
             error={createProjectForm.formState.errors.projectName}
+            id="projectName"
           />
 
           <div>

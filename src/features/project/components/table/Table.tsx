@@ -31,7 +31,6 @@ const TableTask = () => {
     data: tasks,
     loading,
     refetch,
-    isInitialLoading,
   } = useFetch<Task[]>(`/task/tasks-project/?id=${id}&section=list`, {
     onError: (status) => {
       if (status === 404) {
@@ -151,12 +150,7 @@ const TableTask = () => {
 
       <div className="px-4 mt-6">
         <div className="bg-white rounded-lg shadow-md">
-          <CustomTable<Task>
-            data={tasks}
-            columns={columns}
-            loading={loading}
-            isInitialLoading={isInitialLoading}
-          />
+          <CustomTable<Task> data={tasks} columns={columns} loading={loading} />
         </div>
       </div>
     </div>

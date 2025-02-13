@@ -7,7 +7,7 @@ type Props = {
   error?: FieldError;
   register: any;
   className?: string;
-  id: string;
+  id?: string;
 };
 
 const FormInput = ({

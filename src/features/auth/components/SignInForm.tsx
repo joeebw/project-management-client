@@ -1,7 +1,8 @@
+import FormInput from "@/components/FormInput";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
-import FormInput from "@/components/FormInput";
+
 import { UseFormReturn } from "react-hook-form";
 
 type Props = {
@@ -45,12 +46,14 @@ const SignInForm = ({
         placeholder="Email"
         register={signInForm.register("email")}
         error={signInForm.formState.errors.email}
+        id="email"
       />
       <FormInput
         type="password"
         placeholder="Password"
         register={signInForm.register("password")}
         error={signInForm.formState.errors.password}
+        id="password"
       />
 
       <div className="flex gap-4 pt-3">

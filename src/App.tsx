@@ -35,7 +35,7 @@ function App() {
           <Route path="timeline" element={<Timeline />} />
           <Route path="settings" element={<Settings />} />
           <Route path="users" element={<Users />} />
-          <Route path="project/:id" element={<Project />} />
+          <Route path="project/:id/:projectName" element={<Project />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

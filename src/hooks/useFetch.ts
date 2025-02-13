@@ -11,23 +11,15 @@ const useFetch = <T>(
   }
 ) => {
   const [data, setData] = useState<T | undefined>(undefined);
-  const [showLoading, setShowLoading] = useState(false);
-  const [isInitialLoading, setIsInitialLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const activeRequest = useRef(false);
 
   const fetchData = async () => {
     try {
       activeRequest.current = true;
-      setIsInitialLoading(true);
+      setLoading(true);
 
-      setTimeout(() => {
-        if (activeRequest.current) {
-          setShowLoading(true);
-        }
-      }, 300);
-
-      setError(null);
       const response = await api(url);
       setData(response.data);
       if (options?.onSuccess) {
@@ -35,8 +27,7 @@ const useFetch = <T>(
       }
 
       activeRequest.current = false;
-      setShowLoading(false);
-      setIsInitialLoading(false);
+      setLoading(false);
     } catch (err) {
       getErrorMessage(err);
       const error = err as AxiosError;
@@ -47,8 +38,7 @@ const useFetch = <T>(
       }
 
       activeRequest.current = false;
-      setShowLoading(false);
-      setIsInitialLoading(false);
+      setLoading(false);
     }
   };
 
@@ -62,8 +52,7 @@ const useFetch = <T>(
 
   return {
     data,
-    loading: showLoading,
-    isInitialLoading,
+    loading,
     error,
     refetch,
     setData,

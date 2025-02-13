@@ -59,7 +59,7 @@ const KanbanBoard = () => {
     if (!loading) {
       const timer = setTimeout(() => {
         setArtificialLoading(false);
-      }, 300);
+      }, 50);
 
       return () => clearTimeout(timer);
     }

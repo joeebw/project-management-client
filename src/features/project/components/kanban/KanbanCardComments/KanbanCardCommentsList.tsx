@@ -58,7 +58,7 @@ const KanbanCardCommentsList = ({ taskId }: Props) => {
             </div>
 
             <DropdownRemoveComment
-              className="w-4"
+              className="w-4 shrink-0"
               idComment={id}
               refetch={refetch}
             />

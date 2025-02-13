@@ -8,6 +8,7 @@ import api from "@/lib/apiService";
 import { useStore } from "@/state/useStore";
 import clsx from "clsx";
 import { EllipsisVertical } from "lucide-react";
+import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
 type Props = {
@@ -17,6 +18,7 @@ type Props = {
 };
 
 const DropdownRemoveProject = ({ className, idProject, refetch }: Props) => {
+  const navigate = useNavigate();
   const openConfirmationModal = useStore(
     (state) => state.openConfirmationModal
   );
@@ -33,6 +35,7 @@ const DropdownRemoveProject = ({ className, idProject, refetch }: Props) => {
           await api.delete(`/project/delete/?id=${idProject}`);
           toast.success("Your project has been successfully deleted.");
           refetch?.();
+          navigate("/home/");
         } catch (err) {
           console.log(err);
           toast.error("Oops! Something unexpected happened.Please try again.");

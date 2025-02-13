@@ -10,11 +10,13 @@ interface NavBarProps {
 
 const NavBar = ({ onMenuClick }: NavBarProps) => {
   const navigate = useNavigate();
-  const resetStore = useStore((state) => state.resetStore);
+  const resetAuthStore = useStore((state) => state.resetAuthStore);
+  const resetProjectStore = useStore((state) => state.resetProjectStore);
 
   const handleSignOut = () => {
     removeTokens();
-    resetStore();
+    resetAuthStore();
+    resetProjectStore();
     navigate("/", { replace: true });
   };
 

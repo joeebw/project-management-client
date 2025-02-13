@@ -11,7 +11,7 @@ export type Store = {
   user: User | null;
   setIsSignIn: () => void;
   setUser: (user: User) => void;
-  resetStore: () => void;
+  resetAuthStore: () => void;
 };
 
 export type ProjectState = {
@@ -20,6 +20,7 @@ export type ProjectState = {
 
   // Project actions
   setProjectSection: (section: string) => void;
+  resetProjectStore: () => void;
 
   // Modal states
   isProjectModal: boolean;

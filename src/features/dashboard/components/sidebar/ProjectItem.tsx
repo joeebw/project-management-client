@@ -23,11 +23,11 @@ const ProjectItem = ({ pathname, id, name }: Props) => {
   const refetchProjects = useStore((state) => state.refetchProjects);
 
   return (
-    <Link to={`/home/project/${id}`} key={id}>
+    <Link to={`/home/project/${id}/${encodeURIComponent(name)}`} key={id}>
       <div
         className={clsx(
           "py-4 transition cursor-pointer hover:bg-gray-500",
-          pathname.split("/").pop() === id.toString() &&
+          pathname.split("/")[3] === id.toString() &&
             "bg-gray-500 border-l-4 border-blue-400"
         )}
         onMouseEnter={() => setIsHovering(true)}

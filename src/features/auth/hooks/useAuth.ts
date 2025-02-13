@@ -53,7 +53,6 @@ const useAuth = () => {
   const handleSignIn = async ({ email, password }: SignInFormData) => {
     try {
       const response = await authService.signIn(email, password);
-      console.log("response: ", response);
 
       setUser(response.user);
       setTokens(response.accessToken, response.refreshToken);
@@ -67,12 +66,21 @@ const useAuth = () => {
   };
 
   const handleSignInGuest = async () => {
-    setIsLoadingGuest(true);
-    await handleSignIn({
-      email: import.meta.env.VITE_EMAIL,
-      password: import.meta.env.VITE_PASSWORD,
-    });
-    setIsLoadingGuest(false);
+    try {
+      setIsLoadingGuest(true);
+      const response = await authService.signInGuest();
+      setUser(response.user);
+      setTokens(response.accessToken, response.refreshToken);
+      navigate("/home", { replace: true });
+    } catch (err) {
+      setIsLoadingGuest(false);
+      form.setError("root", {
+        type: "manual",
+        message: err as string,
+      });
+    } finally {
+      setIsLoadingGuest(false);
+    }
   };
 
   const handleSignUp = async (data: SignUpFormData) => {

@@ -58,4 +58,5 @@ export const createProjectSlice: StateCreator<
     set(() => ({ projectSection: section })),
   setRefetchList: (refetch) => set(() => ({ refetchList: refetch })),
   setRefetchTable: (refetch) => set(() => ({ refetchTable: refetch })),
+  resetProjectStore: () => set(INITIAL_PROJECT_STATE),
 });

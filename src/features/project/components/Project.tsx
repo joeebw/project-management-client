@@ -7,8 +7,11 @@ import Table from "@/features/project/components/table/Table";
 import TabsProject from "@/features/project/components/TabsProject";
 import { useStore } from "@/state/useStore";
 import { SquarePlus } from "lucide-react";
+import { useParams } from "react-router";
 
 const Project = () => {
+  const { projectName } = useParams();
+  const decodedProjectName = decodeURIComponent(projectName || "");
   const projectSection = useStore((state) => state.projectSection);
   const setIsProjectModal = useStore((state) => state.setIsProjectModal);
 
@@ -16,9 +19,7 @@ const Project = () => {
     <>
       {/* Header */}
       <div className="flex items-center justify-between p-5">
-        <span className="text-2xl font-semibold">
-          Product Design Development
-        </span>
+        <span className="text-2xl font-semibold">{decodedProjectName}</span>
         <Button onClick={() => setIsProjectModal(true)}>
           <SquarePlus />
           New Boards

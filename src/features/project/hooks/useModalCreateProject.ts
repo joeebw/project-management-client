@@ -79,7 +79,7 @@ const useModalCreteProject = () => {
 
       setIsProjectModal(false);
 
-      navigate(`/home/project/${responseProject.id}`);
+      navigate(`/home/project/${responseProject.id}/${data.projectName}`);
     } catch (err) {
       console.error(err);
     } finally {

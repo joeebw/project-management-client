@@ -20,7 +20,6 @@ type CustomTableProps<T> = {
   data: T[] | undefined;
   columns: Column<T>[];
   loading?: boolean;
-  isInitialLoading: boolean;
   itemsPerPage?: number;
   className?: string;
 };
@@ -29,7 +28,6 @@ const CustomTable = <T extends Record<string, any>>({
   data,
   columns,
   loading = false,
-  isInitialLoading,
   itemsPerPage = 5,
   className = "",
 }: CustomTableProps<T>) => {
@@ -52,7 +50,7 @@ const CustomTable = <T extends Record<string, any>>({
           <div className="flex items-center justify-center min-h-[inherit] h-full">
             <Loader2 className="w-8 h-8 animate-spin" />
           </div>
-        ) : (!data || data.length === 0) && !isInitialLoading ? (
+        ) : !data || data.length === 0 ? (
           <div className="flex items-center justify-center min-h-[inherit] h-full">
             <div className="text-muted-foreground">No data found</div>
           </div>

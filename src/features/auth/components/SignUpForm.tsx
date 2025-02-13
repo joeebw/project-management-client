@@ -38,29 +38,34 @@ const SignUpForm = ({ form, signUpForm, handleSignUp, isLoading }: Props) => {
         placeholder="User Name"
         register={signUpForm.register("name")}
         error={signUpForm.formState.errors.name}
+        id="name"
       />
       <FormInput
         type="email"
         placeholder="Email"
         register={signUpForm.register("email")}
         error={signUpForm.formState.errors.email}
+        id="email"
       />
       <FormInput
         placeholder="Role"
         register={signUpForm.register("role")}
         error={signUpForm.formState.errors.role}
+        id="role"
       />
       <FormInput
         type="password"
         placeholder="Password"
         register={signUpForm.register("password")}
         error={signUpForm.formState.errors.password}
+        id="password"
       />
       <FormInput
         type="password"
         placeholder="Confirm Password"
         register={signUpForm.register("confirmPassword")}
         error={signUpForm.formState.errors.confirmPassword}
+        id="confirmPassword"
       />
 
       <div className="pt-3">

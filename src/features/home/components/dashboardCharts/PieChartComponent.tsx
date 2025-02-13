@@ -5,12 +5,7 @@ import useFetch from "@/hooks/useFetch";
 import { Loader2 } from "lucide-react";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 
-const pieData = [
-  { name: "Completed", value: 75 },
-  { name: "Remaining", value: 25 },
-];
-
-const COLORS = ["#007bf4", "#f0f0f0"];
+const COLORS = ["#007bf4", "#9ca3af"];
 
 const PieChartComponent = () => {
   const { data: pieData, loading } = useFetch<ChartData[]>("/task/total-tasks");
@@ -18,11 +13,13 @@ const PieChartComponent = () => {
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle className="text-xl">Project Status</CardTitle>
+        <CardTitle className="text-xl ">Project Status</CardTitle>
       </CardHeader>
       <CardContent className="h-80">
         {loading ? (
-          <Loader2 className="w-5 h-5 animate-spin" />
+          <div className="flex items-center justify-center h-full">
+            <Loader2 className="w-5 h-5 animate-spin" />
+          </div>
         ) : !pieData ? (
           <div className="text-center">No data available</div>
         ) : (
@@ -48,7 +45,7 @@ const PieChartComponent = () => {
             {/* Leyenda */}
             <div className="flex gap-4 mt-4">
               <ChartLegend color="#007bf4" label="Completed" />
-              <ChartLegend color="#f0f0f0" label="Remaining" />
+              <ChartLegend color="#9ca3af" label="Remaining" />
             </div>
           </div>
         )}

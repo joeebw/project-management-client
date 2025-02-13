@@ -12,5 +12,5 @@ export const createAuthSlice: StateCreator<StoreState, [], [], Store> = (
   ...INITIAL_STORE_STATE,
   setIsSignIn: () => set((state) => ({ isSignIn: !state.isSignIn })),
   setUser: (user: User) => set(() => ({ user })),
-  resetStore: () => set(INITIAL_STORE_STATE),
+  resetAuthStore: () => set(INITIAL_STORE_STATE),
 });

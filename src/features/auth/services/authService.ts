@@ -18,6 +18,15 @@ const signIn = async (email: string, password: string) => {
   }
 };
 
+const signInGuest = async () => {
+  try {
+    const response = await api.post<SignInResp>("/auth/signInGuest");
+    return response.data;
+  } catch (err) {
+    throw getErrorMessage(err);
+  }
+};
+
 const register = async ({
   email,
   userName,
@@ -40,4 +49,5 @@ const register = async ({
 export default {
   signIn,
   register,
+  signInGuest,
 };
