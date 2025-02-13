@@ -21,7 +21,7 @@ To run Proflow locally, follow these steps:
 
 1. Clone the repository:  
    ```sh
-   git clone <repository_url>
+   git clone https://github.com/joeebw/project-management-client.git
    cd proflow
    ```  
 2. Install dependencies:  
