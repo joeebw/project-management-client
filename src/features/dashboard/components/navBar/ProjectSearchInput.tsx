@@ -67,10 +67,11 @@ const ProjectSearchInput = ({ className }: Props) => {
   };
 
   const handleUserSelect = (project: Project) => {
-    navigate(`/home/project/${project.id}`);
+    navigate(`/home/project/${project.id}/${project.name}`);
 
     setSelectedIndex(0);
     setShowUserCards(false);
+    setSearchTerm("");
   };
 
   const scrollToSelectedItem = (index: number) => {

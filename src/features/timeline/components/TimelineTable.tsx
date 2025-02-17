@@ -9,6 +9,7 @@ import useFetch from "@/hooks/useFetch";
 import { Project } from "@/ts/shared.types";
 import { Loader2 } from "lucide-react";
 import Pagination from "@/features/timeline/components/Pagination";
+import { formatDate } from "@/features/timeline/lib/timeline";
 
 const ITEMS_PER_PAGE = 5;
 
@@ -124,8 +125,8 @@ const TimelineTable = () => {
                         </TooltipContent>
                       </Tooltip>
                     </TooltipProvider>
-                    <div>{item.startDate}</div>
-                    <div>{item.endDate}</div>
+                    <div>{formatDate(item.startDate)}</div>
+                    <div>{formatDate(item.endDate)}</div>
                   </div>
                 ))}
               </div>

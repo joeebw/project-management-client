@@ -23,16 +23,16 @@ const PieChartComponent = () => {
         ) : !pieData ? (
           <div className="text-center">No data available</div>
         ) : (
-          <div className="flex flex-col items-center w-full h-full">
+          <div className="flex flex-col items-center justify-center w-full h-full">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
                   data={pieData}
                   cx="50%"
                   cy="50%"
-                  outerRadius="90%"
+                  outerRadius="78%"
                   dataKey="value"
-                  label={({ value }) => `${value}%`}
+                  label={({ value }) => `${value} tasks`}
                 >
                   {pieData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index]} />
