@@ -1,50 +1,44 @@
-# React + TypeScript + Vite
+# **Proflow**  
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## **Overview**  
+**Proflow** is a project management tool designed to help users track their projects efficiently. It includes different views such as Kanban boards, tables, and lists to organize tasks. Users can assign tasks to team members, leave comments, and use tags to indicate urgency and progress.  
 
-Currently, two official plugins are available:
+## **Project Status**  
+Proflow is currently in the **beta stage** and was developed as a portfolio project.  
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## **Technology Stack**  
+- **Frontend:** React with TypeScript  
+- **Styling:** Tailwind CSS and shadcn/UI  
+- **Deployment:** Netlify  
 
-## Expanding the ESLint configuration
+## **Key Features**  
+- **Project Tracking:** Organize projects and tasks with Kanban boards, tables, and lists.  
+- **Task Management:** Assign tasks to users, leave comments, and track progress.  
+- **Tag System:** Use tags to indicate urgency and the current phase of each task.  
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## **Installation & Setup**  
+To run Proflow locally, follow these steps:  
 
-- Configure the top-level `parserOptions` property like this:
+1. Clone the repository:  
+   ```sh
+   git clone https://github.com/joeebw/project-management-client.git
+   cd proflow
+   ```  
+2. Install dependencies:  
+   ```sh
+   pnpm install
+   ```  
+3. Build the project:  
+   ```sh
+   pnpm run build
+   ```  
+4. Start the development server:  
+   ```sh
+   pnpm start
+   ```  
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## **Deployment**  
+Proflow is deployed on **Netlify**.  
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## **Contributing**  
+Currently, contributions are not open.  
