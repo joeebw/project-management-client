@@ -1,6 +1,7 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import ProjectItem from "@/features/dashboard/components/sidebar/ProjectItem";
 import SidebarContent from "@/features/dashboard/components/sidebar/SidebarContent";
+import projectService from "@/features/project/services/projectService";
 import useFetch from "@/hooks/useFetch";
 import { useStore } from "@/state/useStore";
 import { Project } from "@/ts/shared.types";
@@ -20,6 +21,25 @@ const Projects = () => {
   useEffect(() => {
     setRefetchProjects(refetch);
   }, [refetch]);
+
+  useEffect(() => {
+    const createProject = async () => {
+      if (menuNavigation?.length && menuNavigation.length > 0) return;
+
+      await projectService.createProject({
+        projectName: "Project Start",
+        description: "This is the first project",
+        startDate: new Date(),
+        endDate: new Date(),
+      });
+      refetch();
+    };
+
+    if (!loading && menuNavigation?.length === 0) {
+      console.log("Creating project");
+      createProject();
+    }
+  }, [loading, menuNavigation]);
 
   return (
     <div className="flex flex-col flex-1 min-h-0 mt-3">
