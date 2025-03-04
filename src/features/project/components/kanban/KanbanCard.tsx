@@ -33,7 +33,7 @@ const KanbanCard = ({
 
   return (
     <div
-      className="p-3.5 bg-white shadow cursor-move rounded-xl"
+      className="p-3.5 bg-white shadow-lg cursor-move rounded-xl"
       draggable
       onDragStart={(e) => onDragStart(e, card, boardName)}
       onDragEnd={onDragEnd}

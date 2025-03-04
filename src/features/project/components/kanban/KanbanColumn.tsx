@@ -54,7 +54,7 @@ export const KanbanColumn = ({
 
   return (
     <div
-      className="bg-gray-100 rounded-lg min-h-96"
+      className="rounded-lg min-h-96"
       onDragOver={handleColumnDragOver}
       onDrop={(e) =>
         onDrop(e, boardName, dropIndicator.index ?? cards?.length ?? 0)
@@ -62,7 +62,7 @@ export const KanbanColumn = ({
     >
       <div
         className={clsx(
-          "flex justify-between p-4 mb-4 bg-white rounded-2xl",
+          "flex justify-between p-4 mb-4 bg-white shadow-lg rounded-2xl",
           "border-l-8",
           borderSection[title]
         )}

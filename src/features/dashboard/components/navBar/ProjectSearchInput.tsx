@@ -124,7 +124,7 @@ const ProjectSearchInput = ({ className }: Props) => {
         </div>
 
         {showUserCards && (
-          <Card className="absolute top-11 -left-24 lg:left-0 max-h-[20rem] overflow-y-auto w-[20rem]  lg:w-96 shadow-lg z-20 overflow-x-hidden bg-primary text-white">
+          <Card className="absolute top-11 -left-24 lg:left-0 max-h-[20rem] overflow-y-auto w-[20rem]  lg:w-96 shadow-lg z-20 overflow-x-hidden bg-foreground text-white">
             <CardHeader>
               <CardTitle>Projects</CardTitle>
             </CardHeader>

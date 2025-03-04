@@ -29,7 +29,7 @@ const LoginPage = () => {
     <div className="flex items-center justify-center min-h-screen bg-background">
       <Card className="w-full max-w-lg p-4">
         <CardHeader>
-          <CardTitle className="text-xl">Project Management</CardTitle>
+          <CardTitle className="text-xl">Proflow</CardTitle>
           <CardDescription className="text-base">
             Sign in or create an account to get started.
           </CardDescription>

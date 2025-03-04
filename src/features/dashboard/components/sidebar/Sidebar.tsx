@@ -12,7 +12,7 @@ const Sidebar = ({ isOpen }: SidebarProps) => {
       className={`
         fixed xl:static 
         flex flex-col 
-        bg-primary 
+        bg-foreground
         h-screen 
         w-[13.5rem] shrink-0
         text-white 

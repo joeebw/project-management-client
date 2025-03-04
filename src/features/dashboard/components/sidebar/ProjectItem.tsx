@@ -28,7 +28,7 @@ const ProjectItem = ({ pathname, id, name }: Props) => {
         className={clsx(
           "py-4 transition cursor-pointer hover:bg-gray-500",
           pathname.split("/")[3] === id.toString() &&
-            "bg-gray-500 border-l-4 border-blue-400"
+            "bg-gray-500 border-l-4 border-primary"
         )}
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}

@@ -21,7 +21,7 @@ const NavBar = ({ onMenuClick }: NavBarProps) => {
   };
 
   return (
-    <div className="flex justify-between items-center text-white bg-primary min-h-[3.9rem] px-10">
+    <div className="flex justify-between items-center text-white bg-foreground min-h-[3.9rem] px-10">
       <button
         onClick={onMenuClick}
         className="mr-4 xl:hidden"

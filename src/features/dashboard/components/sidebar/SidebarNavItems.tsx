@@ -36,7 +36,7 @@ const SidebarNavItems = () => {
           <div
             className={clsx(
               "py-4 transition cursor-pointer hover:bg-gray-500",
-              pathname === path && "bg-gray-500 border-l-4 border-blue-400"
+              pathname === path && "bg-gray-500 border-l-4 border-primary"
             )}
           >
             <SidebarContent className="flex items-center gap-2">
