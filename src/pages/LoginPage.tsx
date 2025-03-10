@@ -26,7 +26,7 @@ const LoginPage = () => {
   } = useAuth();
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-background">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <Card className="w-full max-w-lg p-4">
         <CardHeader>
           <CardTitle className="text-xl">Proflow</CardTitle>
